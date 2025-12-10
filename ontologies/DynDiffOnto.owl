@@ -1,0 +1,1271 @@
+@prefix : <http://www.list.lu/change-ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dyn: <http://www.dynaccurate.lu/> .
+@prefix omv: <http://omv.ontoware.org/2005/05/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xsp: <http://www.owl-ontologies.com/2005/08/07/xsp.owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
+@prefix www.dynaccurate.lu: <http://www.dynaccurate.lu#> .
+@base <http://www.list.lu/change-ontology/> .
+
+<http://www.list.lu/change-ontology/> rdf:type owl:Ontology ;
+                                       dc:created "2020-05-03" ;
+                                       dc:creator "Cédric Pruski" ,
+                                                  "Marcos Da Silveira" ,
+                                                  "Sara Diaz" ,
+                                                  "Silvio Cardoso" ;
+                                       dc:publisher "Luxembourg Institute of Science and Technology" ;
+                                       dcterms:license "https://creativecommons.org/licenses/by-nd/4.0/" ;
+                                       dcterms:rightsHolder "Luxembourg Institute of Science and Technology" ;
+                                       dcterms:title "Change ontology" ;
+                                       rdfs:comment "DynDiffOnto was create to represent changes detected when comparing two versions of an ontology."@en ;
+                                       owl:versionInfo "version 1.0.0 published at 2020-05-03" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/created
+dc:created rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/publisher
+dc:publisher rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/license
+dcterms:license rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/rightsHolder
+dcterms:rightsHolder rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+dcterms:title rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.dynaccurate.lu/appliesTo
+dyn:appliesTo rdf:type owl:ObjectProperty ;
+              rdfs:domain dyn:AnyChangeAction ;
+              rdfs:range dyn:oldOntologyVersion ;
+              rdfs:comment "This property is used to inform if the source code comes from the old version or from the new version of the ontology."@en ;
+              rdfs:label "appliesTo" .
+
+
+###  http://www.dynaccurate.lu/hasAfterCodes
+dyn:hasAfterCodes rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain [ rdf:type owl:Class ;
+                                owl:unionOf ( dyn:ComplexChange
+                                              dyn:HeuristicChange
+                                            )
+                              ] ;
+                  rdfs:range owl:Thing ;
+                  rdfs:comment "This property is used when there is a change in a resource (e.g., changeLabel)"@en ;
+                  rdfs:label "hasAfterCodes" .
+
+
+###  http://www.dynaccurate.lu/hasBeforeCodes
+dyn:hasBeforeCodes rdf:type owl:ObjectProperty ;
+                   rdfs:domain [ rdf:type owl:Class ;
+                                 owl:unionOf ( dyn:ComplexChange
+                                               dyn:HeuristicChange
+                                             )
+                               ] ;
+                   rdfs:range owl:Thing ;
+                   rdfs:label "hasBeforeCodes" .
+
+
+###  http://www.dynaccurate.lu/hasProperty
+dyn:hasProperty rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain owl:Thing ;
+                rdfs:range owl:Thing ;
+                rdfs:label "hasProperty" .
+
+
+###  http://www.dynaccurate.lu/hasSourceCode
+dyn:hasSourceCode rdf:type owl:ObjectProperty ;
+                  rdfs:domain dyn:AnyChangeAction ;
+                  rdfs:range owl:Thing ;
+                  rdfs:label "hasSourceCode" .
+
+
+###  http://www.dynaccurate.lu/hasTargetCode
+dyn:hasTargetCode rdf:type owl:ObjectProperty ;
+                  rdfs:domain dyn:AnyChangeAction ;
+                  rdfs:range owl:Thing ;
+                  rdfs:label "hasTargetCode" .
+
+
+###  http://www.dynaccurate.lu/isPartOf
+dyn:isPartOf rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             owl:inverseOf dyn:madeUpOf ;
+             rdf:type owl:FunctionalProperty ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( dyn:BasicChange
+                                         dyn:ComplexChange
+                                       )
+                         ] ;
+             rdfs:range [ rdf:type owl:Class ;
+                          owl:unionOf ( dyn:ComplexChange
+                                        dyn:HeuristicChange
+                                      )
+                        ] ;
+             rdfs:label "isPartOf" .
+
+
+###  http://www.dynaccurate.lu/madeUpOf
+dyn:madeUpOf rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             rdf:type owl:InverseFunctionalProperty ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( dyn:ComplexChange
+                                         dyn:HeuristicChange
+                                       )
+                         ] ;
+             rdfs:range [ rdf:type owl:Class ;
+                          owl:unionOf ( dyn:BasicChange
+                                        dyn:ComplexChange
+                                      )
+                        ] ;
+             rdfs:label "madeUpOf" .
+
+
+###  http://www.dynaccurate.lu/resultsIn
+dyn:resultsIn rdf:type owl:ObjectProperty ;
+              rdfs:domain dyn:AnyChangeAction ;
+              rdfs:range dyn:newOntologyVersion ;
+              rdfs:label "resultsIn" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.dynaccurate.lu/hasAfterValues
+dyn:hasAfterValues rdf:type owl:DatatypeProperty ;
+                   rdfs:domain [ rdf:type owl:Restriction ;
+                                 owl:onProperty dyn:hasAfterCodes ;
+                                 owl:allValuesFrom dyn:AnyChangeAction
+                               ] ;
+                   rdfs:range xsd:string ;
+                   rdfs:label "hasAfterValues" .
+
+
+###  http://www.dynaccurate.lu/hasBeforeValues
+dyn:hasBeforeValues rdf:type owl:DatatypeProperty ;
+                    rdfs:domain [ rdf:type owl:Restriction ;
+                                  owl:onProperty dyn:hasBeforeCodes ;
+                                  owl:allValuesFrom dyn:AnyChangeAction
+                                ] ;
+                    rdfs:range xsd:string ;
+                    rdfs:label "hasBeforeValues" .
+
+
+###  http://www.dynaccurate.lu/hasGraphName
+dyn:hasGraphName rdf:type owl:DatatypeProperty ;
+                 rdfs:domain dyn:Version ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "This is the name of the graph (for SPARQL query) in the repository" ;
+                 rdfs:label "hasGraphName" .
+
+
+###  http://www.dynaccurate.lu/hasOntologyName
+dyn:hasOntologyName rdf:type owl:DatatypeProperty ;
+                    rdfs:domain dyn:Version ;
+                    rdfs:range rdfs:Literal ;
+                    rdfs:label "hasOntologyName" .
+
+
+###  http://www.dynaccurate.lu/hasOntologyPublicationDate
+dyn:hasOntologyPublicationDate rdf:type owl:DatatypeProperty ;
+                               rdfs:domain dyn:Version ;
+                               rdfs:range xsd:dateTime ;
+                               rdfs:label "hasOntologyPublicationDate" .
+
+
+###  http://www.dynaccurate.lu/hasOntologyVersionName
+dyn:hasOntologyVersionName rdf:type owl:DatatypeProperty ;
+                           rdfs:domain dyn:Version ;
+                           rdfs:range rdfs:Literal ;
+                           rdfs:label "hasOntologyVersionName" .
+
+
+###  http://www.dynaccurate.lu/hasTargetCodeLiteral
+dyn:hasTargetCodeLiteral rdf:type owl:DatatypeProperty ;
+                         rdfs:domain [ rdf:type owl:Restriction ;
+                                       owl:onProperty dyn:hasTargetCode ;
+                                       owl:allValuesFrom dyn:AnyChangeAction
+                                     ] ;
+                         rdfs:range rdfs:Literal ;
+                         rdfs:label "hasTargetCodeLiteral" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.dynaccurate.lu/AnyChangeAction
+dyn:AnyChangeAction rdf:type owl:Class ;
+                    rdfs:subClassOf owl:Thing ;
+                    rdfs:comment "All kind of changes that were observed in the ontologies that we studied are defined within DiffOnto."@en ;
+                    rdfs:label "AnyChangeAction" .
+
+
+###  http://www.dynaccurate.lu/BasicChange
+dyn:BasicChange rdf:type owl:Class ;
+                rdfs:subClassOf dyn:AnyChangeAction ;
+                owl:disjointWith dyn:ComplexChange ,
+                                 dyn:HeuristicChange ;
+                rdfs:comment "Add/delete a type of resource to/from the ontology. These are the simplest change actions identified by the Diff. Basic change actions are \"consumed\" by complex or heuristic change actions."@en ;
+                rdfs:label "BasicChange" .
+
+
+###  http://www.dynaccurate.lu/BasicChangeAttributes
+dyn:BasicChangeAttributes rdf:type owl:Class ;
+                          rdfs:subClassOf dyn:BasicChange ;
+                          rdfs:comment "Add or delete Literals"@en ;
+                          rdfs:label "BasicChangeAttributes" .
+
+
+###  http://www.dynaccurate.lu/BasicChangeConcept
+dyn:BasicChangeConcept rdf:type owl:Class ;
+                       rdfs:subClassOf dyn:BasicChange ;
+                       owl:disjointWith dyn:BasicChangeInstances ;
+                       rdfs:comment "Add or delete a concept"@en ;
+                       rdfs:label "BasicChangeConcept" .
+
+
+###  http://www.dynaccurate.lu/BasicChangeInstances
+dyn:BasicChangeInstances rdf:type owl:Class ;
+                         rdfs:subClassOf dyn:BasicChange ;
+                         rdfs:comment "Add or delete individuals to classes"@en ;
+                         rdfs:label "BasicChangeInstances" .
+
+
+###  http://www.dynaccurate.lu/BasicChangeProperties
+dyn:BasicChangeProperties rdf:type owl:Class ;
+                          rdfs:subClassOf dyn:BasicChange ;
+                          owl:disjointWith dyn:addOtherR ,
+                                           dyn:delOtherR ;
+                          rdfs:comment "Add or delete subsumption relationships"@en ;
+                          rdfs:label "BasicChangeProperties" .
+
+
+###  http://www.dynaccurate.lu/ComplexChange
+dyn:ComplexChange rdf:type owl:Class ;
+                  rdfs:subClassOf dyn:AnyChangeAction ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty dyn:madeUpOf ;
+                                    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass dyn:BasicChange
+                                  ] ;
+                  owl:disjointWith dyn:HeuristicChange ;
+                  rdfs:comment "Regroup basic changes based on deterministic rules to compose more complex changes"@en ;
+                  rdfs:label "ComplexChange" .
+
+
+###  http://www.dynaccurate.lu/HeuristicChange
+dyn:HeuristicChange rdf:type owl:Class ;
+                    rdfs:subClassOf dyn:AnyChangeAction ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty dyn:madeUpOf ;
+                                      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass dyn:BasicChange
+                                    ] ;
+                    rdfs:comment "Regroup basic changes based on deterministic rules to compose more heuristic changes" ;
+                    rdfs:label "HeuristicChange" .
+
+
+###  http://www.dynaccurate.lu/HeuristicChangeAttributes
+dyn:HeuristicChangeAttributes rdf:type owl:Class ;
+                              rdfs:subClassOf dyn:HeuristicChange ;
+                              rdfs:comment "Chnages in attributes for heuristic change" ;
+                              rdfs:label "HeuristicChangeAttributes" .
+
+
+###  http://www.dynaccurate.lu/Version
+dyn:Version rdf:type owl:Class ;
+            rdfs:subClassOf owl:Thing ;
+            rdfs:comment "This class has complementary information about the two ontologies used to compute the Diff."@en ;
+            rdfs:label "Version"@en .
+
+
+###  http://www.dynaccurate.lu/addC
+dyn:addC rdf:type owl:Class ;
+         rdfs:subClassOf dyn:BasicChangeConcept ;
+         owl:disjointWith dyn:addComment ,
+                          dyn:addI ,
+                          dyn:addLabel ,
+                          dyn:addOtherA ,
+                          dyn:addOtherR ,
+                          dyn:addP ,
+                          dyn:addSupC ,
+                          dyn:addSupP ,
+                          dyn:delC ,
+                          dyn:delI ,
+                          dyn:delP ,
+                          dyn:delSupC ,
+                          dyn:delSupP ;
+         rdfs:comment "Add a resource of type class (i.e., rdf:Class, owl:Class, ...)"@en ;
+         rdfs:label "addC" .
+
+
+###  http://www.dynaccurate.lu/addComment
+dyn:addComment rdf:type owl:Class ;
+               rdfs:subClassOf dyn:BasicChangeAttributes ;
+               owl:disjointWith dyn:addI ,
+                                dyn:addLabel ,
+                                dyn:addOtherA ,
+                                dyn:addOtherR ,
+                                dyn:addP ,
+                                dyn:addSupC ,
+                                dyn:addSupP ,
+                                dyn:delC ,
+                                dyn:delI ,
+                                dyn:delP ,
+                                dyn:delSupC ,
+                                dyn:delSupP ;
+               rdfs:comment "Add a comment"@en ;
+               rdfs:label "addComment" .
+
+
+###  http://www.dynaccurate.lu/addI
+dyn:addI rdf:type owl:Class ;
+         rdfs:subClassOf dyn:BasicChangeInstances ;
+         owl:disjointWith dyn:addLabel ,
+                          dyn:addOtherA ,
+                          dyn:addOtherR ,
+                          dyn:addP ,
+                          dyn:addSupC ,
+                          dyn:addSupP ,
+                          dyn:delC ,
+                          dyn:delI ,
+                          dyn:delP ,
+                          dyn:delSupC ,
+                          dyn:delSupP ;
+         rdfs:comment "Add an instance of a class"@en ;
+         rdfs:label "addI" .
+
+
+###  http://www.dynaccurate.lu/addLabel
+dyn:addLabel rdf:type owl:Class ;
+             rdfs:subClassOf dyn:BasicChangeAttributes ;
+             owl:disjointWith dyn:addOtherA ,
+                              dyn:addOtherR ,
+                              dyn:addP ,
+                              dyn:addSupC ,
+                              dyn:addSupP ,
+                              dyn:delC ,
+                              dyn:delI ,
+                              dyn:delP ,
+                              dyn:delSupC ,
+                              dyn:delSupP ;
+             rdfs:comment "Add a label (i.e., rdfs:label, skos:prefLabel, skos:altLabel)"@en ;
+             rdfs:label "addLabel" .
+
+
+###  http://www.dynaccurate.lu/addLeafC
+dyn:addLeafC rdf:type owl:Class ;
+             rdfs:subClassOf dyn:ComplexChange ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty dyn:madeUpOf ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass dyn:addSupC
+                             ] ;
+             owl:disjointWith dyn:addSubGraphC ,
+                              dyn:addSubGraphP ,
+                              dyn:delLeafC ,
+                              dyn:delSubGraphC ,
+                              dyn:delSubGraphP ,
+                              dyn:moveC ,
+                              dyn:moveP ,
+                              dyn:pullDownC ,
+                              dyn:pullDownP ,
+                              dyn:pullUpC ,
+                              dyn:pullUpP ,
+                              dyn:reclassIHigher ,
+                              dyn:reclassILower ,
+                              dyn:revObs ,
+                              dyn:toObs ;
+             rdfs:comment "When the added class does not subsumes any other class"@en ;
+             rdfs:label "addLeafC" .
+
+
+###  http://www.dynaccurate.lu/addLeafP
+dyn:addLeafP rdf:type owl:Class ;
+             rdfs:subClassOf dyn:ComplexChange ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty dyn:madeUpOf ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass dyn:addSupP
+                             ] ;
+             rdfs:comment "When the added Property does not subsumes any other property"@en ;
+             rdfs:label "addLeafP" .
+
+
+###  http://www.dynaccurate.lu/addOtherA
+dyn:addOtherA rdf:type owl:Class ;
+              rdfs:subClassOf dyn:BasicChangeAttributes ;
+              owl:disjointWith dyn:addOtherR ,
+                               dyn:addP ,
+                               dyn:addSupC ,
+                               dyn:addSupP ,
+                               dyn:delC ,
+                               dyn:delI ,
+                               dyn:delP ,
+                               dyn:delSupC ,
+                               dyn:delSupP ;
+              rdfs:comment "Add an attribute (Literal with text, number, or date) that is not a label or a comment"@en ;
+              rdfs:label "addOtherA" .
+
+
+###  http://www.dynaccurate.lu/addOtherR
+dyn:addOtherR rdf:type owl:Class ;
+              rdfs:subClassOf dyn:BasicChange ;
+              owl:disjointWith dyn:addP ,
+                               dyn:addSupC ,
+                               dyn:addSupP ,
+                               dyn:delC ,
+                               dyn:delI ,
+                               dyn:delP ,
+                               dyn:delSupC ,
+                               dyn:delSupP ;
+              rdfs:comment "Add a relationship other than subsumption"@en ;
+              rdfs:label "addOtherR" .
+
+
+###  http://www.dynaccurate.lu/addP
+dyn:addP rdf:type owl:Class ;
+         rdfs:subClassOf dyn:BasicChangeProperties ;
+         owl:disjointWith dyn:addSupC ,
+                          dyn:addSupP ,
+                          dyn:delC ,
+                          dyn:delI ,
+                          dyn:delP ,
+                          dyn:delSupC ,
+                          dyn:delSupP ;
+         rdfs:label "addP" .
+
+
+###  http://www.dynaccurate.lu/addSubGraphC
+dyn:addSubGraphC rdf:type owl:Class ;
+                 rdfs:subClassOf dyn:ComplexChange ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:addC
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:addLeafC
+                                 ] ;
+                 owl:disjointWith dyn:addSubGraphP ,
+                                  dyn:delLeafC ,
+                                  dyn:delSubGraphC ,
+                                  dyn:delSubGraphP ,
+                                  dyn:moveC ,
+                                  dyn:moveP ,
+                                  dyn:pullDownC ,
+                                  dyn:pullDownP ,
+                                  dyn:pullUpC ,
+                                  dyn:pullUpP ,
+                                  dyn:reclassIHigher ,
+                                  dyn:reclassILower ,
+                                  dyn:revObs ,
+                                  dyn:toObs ;
+                 rdfs:comment "When several connected (i.e., has a subsumption relationship between them) classes are added to the ontology via only one class (the root class)."@en ;
+                 rdfs:label "addSubGraphC" .
+
+
+###  http://www.dynaccurate.lu/addSubGraphP
+dyn:addSubGraphP rdf:type owl:Class ;
+                 rdfs:subClassOf dyn:ComplexChange ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:addLeafP
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:addP
+                                 ] ;
+                 owl:disjointWith dyn:delLeafC ,
+                                  dyn:delSubGraphC ,
+                                  dyn:delSubGraphP ,
+                                  dyn:moveC ,
+                                  dyn:moveP ,
+                                  dyn:pullDownC ,
+                                  dyn:pullDownP ,
+                                  dyn:pullUpC ,
+                                  dyn:pullUpP ,
+                                  dyn:reclassIHigher ,
+                                  dyn:reclassILower ,
+                                  dyn:revObs ,
+                                  dyn:toObs ;
+                 rdfs:comment "When several connected (i.e., has a subsumption relationship between them) properties are added to the ontology via only property class (the root property)."@en ;
+                 rdfs:label "addSubGraphP" .
+
+
+###  http://www.dynaccurate.lu/addSupC
+dyn:addSupC rdf:type owl:Class ;
+            rdfs:subClassOf dyn:BasicChangeConcept ;
+            owl:disjointWith dyn:addSupP ,
+                             dyn:delC ,
+                             dyn:delI ,
+                             dyn:delP ,
+                             dyn:delSupC ,
+                             dyn:delSupP ;
+            rdfs:comment "Add a relationship of type subClassOf"@en ;
+            rdfs:label "addSupC" .
+
+
+###  http://www.dynaccurate.lu/addSupP
+dyn:addSupP rdf:type owl:Class ;
+            rdfs:subClassOf dyn:BasicChangeProperties ;
+            owl:disjointWith dyn:delC ,
+                             dyn:delI ,
+                             dyn:delP ,
+                             dyn:delSupC ,
+                             dyn:delSupP ;
+            rdfs:comment "Add a relationship of type subPropertyOf"@en ;
+            rdfs:label "addSupP" .
+
+
+###  http://www.dynaccurate.lu/changeComment
+dyn:changeComment rdf:type owl:Class ;
+                  rdfs:subClassOf dyn:HeuristicChangeAttributes ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty dyn:madeUpOf ;
+                                    owl:someValuesFrom dyn:addComment
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty dyn:madeUpOf ;
+                                    owl:someValuesFrom dyn:delComment
+                                  ] ;
+                  owl:disjointWith dyn:changeLabel ,
+                                   dyn:changeOtherA ,
+                                   dyn:mergeC ,
+                                   dyn:mergeCInto ,
+                                   dyn:mergeP ,
+                                   dyn:mergePInto ,
+                                   dyn:renC ,
+                                   dyn:renI ,
+                                   dyn:renP ,
+                                   dyn:splitC ,
+                                   dyn:splitCInto ,
+                                   dyn:splitP ,
+                                   dyn:splitPInto ;
+                  rdfs:comment "An existing comment was replaced by another"@en ;
+                  rdfs:label "changeComment" .
+
+
+###  http://www.dynaccurate.lu/changeLabel
+dyn:changeLabel rdf:type owl:Class ;
+                rdfs:subClassOf dyn:HeuristicChangeAttributes ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty dyn:madeUpOf ;
+                                  owl:someValuesFrom dyn:addLabel
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty dyn:madeUpOf ;
+                                  owl:someValuesFrom dyn:delLabel
+                                ] ;
+                owl:disjointWith dyn:changeOtherA ,
+                                 dyn:mergeC ,
+                                 dyn:mergeCInto ,
+                                 dyn:mergeP ,
+                                 dyn:mergePInto ,
+                                 dyn:renC ,
+                                 dyn:renI ,
+                                 dyn:renP ,
+                                 dyn:splitC ,
+                                 dyn:splitCInto ,
+                                 dyn:splitP ,
+                                 dyn:splitPInto ;
+                rdfs:comment "An existing label was replaced by another"@en ;
+                rdfs:label "changeLabel" .
+
+
+###  http://www.dynaccurate.lu/changeOtherA
+dyn:changeOtherA rdf:type owl:Class ;
+                 rdfs:subClassOf dyn:HeuristicChangeAttributes ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:someValuesFrom dyn:addOtherA
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:someValuesFrom dyn:delOtherA
+                                 ] ;
+                 owl:disjointWith dyn:mergeC ,
+                                  dyn:mergeCInto ,
+                                  dyn:mergeP ,
+                                  dyn:mergePInto ,
+                                  dyn:renC ,
+                                  dyn:renI ,
+                                  dyn:renP ,
+                                  dyn:splitC ,
+                                  dyn:splitCInto ,
+                                  dyn:splitP ,
+                                  dyn:splitPInto ;
+                 rdfs:comment "An existing attribute (except comment or label) was replaced by another"@en ;
+                 rdfs:label "changeOtherA" .
+
+
+###  http://www.dynaccurate.lu/delC
+dyn:delC rdf:type owl:Class ;
+         rdfs:subClassOf dyn:BasicChangeConcept ;
+         owl:disjointWith dyn:delI ,
+                          dyn:delP ,
+                          dyn:delSupC ,
+                          dyn:delSupP ;
+         rdfs:comment "Delete a resource of type class (i.e., rdf:Class, owl:Class, ...)"@en ;
+         rdfs:label "delC" .
+
+
+###  http://www.dynaccurate.lu/delComment
+dyn:delComment rdf:type owl:Class ;
+               rdfs:subClassOf dyn:BasicChangeAttributes ;
+               rdfs:comment "Delete a comment"@en ;
+               rdfs:label "delComment" .
+
+
+###  http://www.dynaccurate.lu/delI
+dyn:delI rdf:type owl:Class ;
+         rdfs:subClassOf dyn:BasicChangeInstances ;
+         owl:disjointWith dyn:delP ,
+                          dyn:delSupC ,
+                          dyn:delSupP ;
+         rdfs:comment "Delete an instance of a class"@en ;
+         rdfs:label "delI" .
+
+
+###  http://www.dynaccurate.lu/delLabel
+dyn:delLabel rdf:type owl:Class ;
+             rdfs:subClassOf dyn:BasicChangeAttributes ;
+             rdfs:comment "Delete a label (i.e., rdfs:label, skos:prefLabel, skos:altLabel)"@en ;
+             rdfs:label "delLabel" .
+
+
+###  http://www.dynaccurate.lu/delLeafC
+dyn:delLeafC rdf:type owl:Class ;
+             rdfs:subClassOf dyn:ComplexChange ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty dyn:madeUpOf ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass dyn:delSupC
+                             ] ;
+             owl:disjointWith dyn:delSubGraphC ,
+                              dyn:delSubGraphP ,
+                              dyn:moveC ,
+                              dyn:moveP ,
+                              dyn:pullDownC ,
+                              dyn:pullDownP ,
+                              dyn:pullUpC ,
+                              dyn:pullUpP ,
+                              dyn:reclassIHigher ,
+                              dyn:reclassILower ,
+                              dyn:revObs ,
+                              dyn:toObs ;
+             rdfs:comment "When the deleted class does not subsumes any other class."@en ;
+             rdfs:label "delLeafC" .
+
+
+###  http://www.dynaccurate.lu/delLeafP
+dyn:delLeafP rdf:type owl:Class ;
+             rdfs:subClassOf dyn:ComplexChange ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty dyn:madeUpOf ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass dyn:delSupP
+                             ] ;
+             rdfs:comment "When the deleted Property does not subsumes any other property."@en ;
+             rdfs:label "delLeafP" .
+
+
+###  http://www.dynaccurate.lu/delOtherA
+dyn:delOtherA rdf:type owl:Class ;
+              rdfs:subClassOf dyn:BasicChangeAttributes ;
+              rdfs:comment "Delete an attribute (Literal with text, number, or date) that is not a label or a comment"@en ;
+              rdfs:label "delOtherA" .
+
+
+###  http://www.dynaccurate.lu/delOtherR
+dyn:delOtherR rdf:type owl:Class ;
+              rdfs:subClassOf dyn:BasicChange ;
+              rdfs:comment "Delete a relationship other than subsumption"@en ;
+              rdfs:label "delOtherR" .
+
+
+###  http://www.dynaccurate.lu/delP
+dyn:delP rdf:type owl:Class ;
+         rdfs:subClassOf dyn:BasicChangeProperties ;
+         owl:disjointWith dyn:delSupC ,
+                          dyn:delSupP ;
+         rdfs:label "delP" .
+
+
+###  http://www.dynaccurate.lu/delSubGraphC
+dyn:delSubGraphC rdf:type owl:Class ;
+                 rdfs:subClassOf dyn:ComplexChange ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:delC
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:delLeafC
+                                 ] ;
+                 owl:disjointWith dyn:delSubGraphP ,
+                                  dyn:moveC ,
+                                  dyn:moveP ,
+                                  dyn:pullDownC ,
+                                  dyn:pullDownP ,
+                                  dyn:pullUpC ,
+                                  dyn:pullUpP ,
+                                  dyn:reclassIHigher ,
+                                  dyn:reclassILower ,
+                                  dyn:revObs ,
+                                  dyn:toObs ;
+                 rdfs:comment "When deleting one class isolate several other classes from the ontology and all these isolated classes are deleted too."@en ;
+                 rdfs:label "delSubGraphC" .
+
+
+###  http://www.dynaccurate.lu/delSubGraphP
+dyn:delSubGraphP rdf:type owl:Class ;
+                 rdfs:subClassOf dyn:ComplexChange ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:delLeafP
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dyn:madeUpOf ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass dyn:delP
+                                 ] ;
+                 owl:disjointWith dyn:moveC ,
+                                  dyn:moveP ,
+                                  dyn:pullDownC ,
+                                  dyn:pullDownP ,
+                                  dyn:pullUpC ,
+                                  dyn:pullUpP ,
+                                  dyn:reclassIHigher ,
+                                  dyn:reclassILower ,
+                                  dyn:revObs ,
+                                  dyn:toObs ;
+                 rdfs:comment "When deleting one property isolate several other properties from the ontology and all these isolated properties are deleted too."@en ;
+                 rdfs:label "delSubGraphP" .
+
+
+###  http://www.dynaccurate.lu/delSupC
+dyn:delSupC rdf:type owl:Class ;
+            rdfs:subClassOf dyn:BasicChangeConcept ;
+            owl:disjointWith dyn:delSupP ;
+            rdfs:comment "Delete a relationship of type subClassOf"@en ;
+            rdfs:label "delSupC" .
+
+
+###  http://www.dynaccurate.lu/delSupP
+dyn:delSupP rdf:type owl:Class ;
+            rdfs:subClassOf dyn:BasicChangeProperties ;
+            rdfs:comment "Delete a relationship of type subPropertyOf"@en ;
+            rdfs:label "delSupP" .
+
+
+###  http://www.dynaccurate.lu/mergeC
+dyn:mergeC rdf:type owl:Class ;
+           rdfs:subClassOf dyn:HeuristicChange ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:delC
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:addC
+                           ] ;
+           owl:disjointWith dyn:mergeCInto ,
+                            dyn:mergeP ,
+                            dyn:mergePInto ,
+                            dyn:renC ,
+                            dyn:renI ,
+                            dyn:renP ,
+                            dyn:splitC ,
+                            dyn:splitCInto ,
+                            dyn:splitP ,
+                            dyn:splitPInto ;
+           rdfs:comment "When two or more classes are merged and added as a new class"@en ;
+           rdfs:label "mergeC" .
+
+
+###  http://www.dynaccurate.lu/mergeCInto
+dyn:mergeCInto rdf:type owl:Class ;
+               rdfs:subClassOf dyn:HeuristicChange ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty dyn:madeUpOf ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass dyn:delC
+                               ] ;
+               owl:disjointWith dyn:mergeP ,
+                                dyn:mergePInto ,
+                                dyn:renC ,
+                                dyn:renI ,
+                                dyn:renP ,
+                                dyn:splitC ,
+                                dyn:splitCInto ,
+                                dyn:splitP ,
+                                dyn:splitPInto ;
+               rdfs:comment "When two or more classes are merged into one of them"@en ;
+               rdfs:label "mergeCInto" .
+
+
+###  http://www.dynaccurate.lu/mergeP
+dyn:mergeP rdf:type owl:Class ;
+           rdfs:subClassOf dyn:HeuristicChange ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:addP
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:delP
+                           ] ;
+           owl:disjointWith dyn:mergePInto ,
+                            dyn:renC ,
+                            dyn:renI ,
+                            dyn:renP ,
+                            dyn:splitC ,
+                            dyn:splitCInto ,
+                            dyn:splitP ,
+                            dyn:splitPInto ;
+           rdfs:comment "When two or more properties are merged and added as a new property"@en ;
+           rdfs:label "mergeP" .
+
+
+###  http://www.dynaccurate.lu/mergePInto
+dyn:mergePInto rdf:type owl:Class ;
+               rdfs:subClassOf dyn:HeuristicChange ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty dyn:madeUpOf ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass dyn:delP
+                               ] ;
+               owl:disjointWith dyn:renC ,
+                                dyn:renI ,
+                                dyn:renP ,
+                                dyn:splitC ,
+                                dyn:splitCInto ,
+                                dyn:splitP ,
+                                dyn:splitPInto ;
+               rdfs:comment "When two or more properties are merged into one of them"@en ;
+               rdfs:label "mergePInto" .
+
+
+###  http://www.dynaccurate.lu/moveC
+dyn:moveC rdf:type owl:Class ;
+          rdfs:subClassOf dyn:ComplexChange ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty dyn:madeUpOf ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass dyn:addSupC
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty dyn:madeUpOf ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass dyn:delSupC
+                          ] ;
+          owl:disjointWith dyn:moveP ,
+                           dyn:pullDownC ,
+                           dyn:pullDownP ,
+                           dyn:pullUpC ,
+                           dyn:pullUpP ,
+                           dyn:reclassIHigher ,
+                           dyn:reclassILower ,
+                           dyn:revObs ,
+                           dyn:toObs ;
+          rdfs:comment "When at least one parent of the class changes"@en ;
+          rdfs:label "moveC" .
+
+
+###  http://www.dynaccurate.lu/moveP
+dyn:moveP rdf:type owl:Class ;
+          rdfs:subClassOf dyn:ComplexChange ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty dyn:madeUpOf ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass dyn:addSupP
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty dyn:madeUpOf ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass dyn:delSupP
+                          ] ;
+          owl:disjointWith dyn:pullDownC ,
+                           dyn:pullDownP ,
+                           dyn:pullUpC ,
+                           dyn:pullUpP ,
+                           dyn:reclassIHigher ,
+                           dyn:reclassILower ,
+                           dyn:revObs ,
+                           dyn:toObs ;
+          rdfs:comment "When at least one parent of the property changes"@en ;
+          rdfs:label "moveP" .
+
+
+###  http://www.dynaccurate.lu/newOntologyVersion
+dyn:newOntologyVersion rdf:type owl:Class ;
+                       rdfs:subClassOf dyn:Version ;
+                       rdfs:comment """The updated version of the ontology. 
+Describe the newest version of the ontology used to compute the Diff."""@en ;
+                       rdfs:label "newVersion"@en .
+
+
+###  http://www.dynaccurate.lu/oldOntologyVersion
+dyn:oldOntologyVersion rdf:type owl:Class ;
+                       rdfs:subClassOf dyn:Version ;
+                       rdfs:comment """The outdated version of the ontology.
+Describe the ontology were the changes will be applied in order to obtain the newVersion."""@en ;
+                       rdfs:label "oldVersion"@en .
+
+
+###  http://www.dynaccurate.lu/pullDownC
+dyn:pullDownC rdf:type owl:Class ;
+              rdfs:subClassOf dyn:ComplexChange ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty dyn:madeUpOf ;
+                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass dyn:addSupC
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty dyn:madeUpOf ;
+                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass dyn:delSupC
+                              ] ;
+              owl:disjointWith dyn:pullDownP ,
+                               dyn:pullUpC ,
+                               dyn:pullUpP ,
+                               dyn:reclassIHigher ,
+                               dyn:reclassILower ,
+                               dyn:revObs ,
+                               dyn:toObs ;
+              rdfs:comment "When the hierarchical level of a class (only applied to subsumption relationship) increases."@en ;
+              rdfs:label "pullDownC" .
+
+
+###  http://www.dynaccurate.lu/pullDownP
+dyn:pullDownP rdf:type owl:Class ;
+              rdfs:subClassOf dyn:ComplexChange ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty dyn:madeUpOf ;
+                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass dyn:addSupP
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty dyn:madeUpOf ;
+                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass dyn:delSupP
+                              ] ;
+              owl:disjointWith dyn:pullUpC ,
+                               dyn:pullUpP ,
+                               dyn:reclassIHigher ,
+                               dyn:reclassILower ,
+                               dyn:revObs ,
+                               dyn:toObs ;
+              rdfs:comment "When the hierarchical level of a property (only applied to subsumption relationship) increases."@en ;
+              rdfs:label "pullDownP" .
+
+
+###  http://www.dynaccurate.lu/pullUpC
+dyn:pullUpC rdf:type owl:Class ;
+            rdfs:subClassOf dyn:ComplexChange ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty dyn:madeUpOf ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass dyn:addSupC
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty dyn:madeUpOf ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass dyn:delSupC
+                            ] ;
+            owl:disjointWith dyn:pullUpP ,
+                             dyn:reclassIHigher ,
+                             dyn:reclassILower ,
+                             dyn:revObs ,
+                             dyn:toObs ;
+            rdfs:comment "When the hierarchical level of a class (only applied to subsumption relationship) reduces."@en ;
+            rdfs:label "pullUpC" .
+
+
+###  http://www.dynaccurate.lu/pullUpP
+dyn:pullUpP rdf:type owl:Class ;
+            rdfs:subClassOf dyn:ComplexChange ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty dyn:madeUpOf ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass dyn:addSupP
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty dyn:madeUpOf ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass dyn:delSupP
+                            ] ;
+            owl:disjointWith dyn:reclassIHigher ,
+                             dyn:reclassILower ,
+                             dyn:revObs ,
+                             dyn:toObs ;
+            rdfs:comment "When the hierarchical level of a property (only applied to subsumption relationship) reduces."@en ;
+            rdfs:label "pullUpP" .
+
+
+###  http://www.dynaccurate.lu/recastI
+dyn:recastI rdf:type owl:Class ;
+            rdfs:subClassOf dyn:ComplexChange ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty dyn:madeUpOf ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass dyn:addI
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty dyn:madeUpOf ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass dyn:delI
+                            ] ;
+            rdfs:comment "When the type of the instance changes from class A to class B."@en ;
+            rdfs:label "recastI" .
+
+
+###  http://www.dynaccurate.lu/reclassIHigher
+dyn:reclassIHigher rdf:type owl:Class ;
+                   rdfs:subClassOf dyn:ComplexChange ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty dyn:madeUpOf ;
+                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass dyn:addI
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty dyn:madeUpOf ;
+                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass dyn:delI
+                                   ] ;
+                   owl:disjointWith dyn:reclassILower ,
+                                    dyn:revObs ,
+                                    dyn:toObs ;
+                   rdfs:comment "When the instance is reclassified to a more generic class (i.e., the new class is an acester of the old class)"@en ;
+                   rdfs:label "reclassIHigher" .
+
+
+###  http://www.dynaccurate.lu/reclassILower
+dyn:reclassILower rdf:type owl:Class ;
+                  rdfs:subClassOf dyn:ComplexChange ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty dyn:madeUpOf ;
+                                    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass dyn:addI
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty dyn:madeUpOf ;
+                                    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass dyn:delI
+                                  ] ;
+                  owl:disjointWith dyn:revObs ,
+                                   dyn:toObs ;
+                  rdfs:comment "When the instance is reclassified to a more specific class (i.e., the new class is subsumed by the old class)"@en ;
+                  rdfs:label "reclassILower" .
+
+
+###  http://www.dynaccurate.lu/renC
+dyn:renC rdf:type owl:Class ;
+         rdfs:subClassOf dyn:HeuristicChange ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty dyn:madeUpOf ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass dyn:addC
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty dyn:madeUpOf ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass dyn:delC
+                         ] ;
+         owl:disjointWith dyn:renI ,
+                          dyn:renP ,
+                          dyn:splitC ,
+                          dyn:splitCInto ,
+                          dyn:splitP ,
+                          dyn:splitPInto ;
+         rdfs:comment "Change the IRI of a class"@en ;
+         rdfs:label "renC" .
+
+
+###  http://www.dynaccurate.lu/renI
+dyn:renI rdf:type owl:Class ;
+         rdfs:subClassOf dyn:HeuristicChange ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty dyn:madeUpOf ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass dyn:addI
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty dyn:madeUpOf ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass dyn:delI
+                         ] ;
+         owl:disjointWith dyn:renP ,
+                          dyn:splitC ,
+                          dyn:splitCInto ,
+                          dyn:splitP ,
+                          dyn:splitPInto ;
+         rdfs:comment "Change the IRI of an instance"@en ;
+         rdfs:label "renI" .
+
+
+###  http://www.dynaccurate.lu/renP
+dyn:renP rdf:type owl:Class ;
+         rdfs:subClassOf dyn:HeuristicChange ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty dyn:madeUpOf ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass dyn:addP
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty dyn:madeUpOf ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass dyn:delP
+                         ] ;
+         owl:disjointWith dyn:splitC ,
+                          dyn:splitCInto ,
+                          dyn:splitP ,
+                          dyn:splitPInto ;
+         rdfs:comment "Change the IRI of a property"@en ;
+         rdfs:label "renP" .
+
+
+###  http://www.dynaccurate.lu/revObs
+dyn:revObs rdf:type owl:Class ;
+           rdfs:subClassOf dyn:ComplexChange ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:addOtherA
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:delOtherA
+                           ] ;
+           owl:disjointWith dyn:toObs ;
+           rdfs:comment "The resource is revoked from the obsolete (or deprecated) state"@en ;
+           rdfs:label "revObs" .
+
+
+###  http://www.dynaccurate.lu/splitC
+dyn:splitC rdf:type owl:Class ;
+           rdfs:subClassOf dyn:HeuristicChange ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:delC
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:addC
+                           ] ;
+           owl:disjointWith dyn:splitCInto ,
+                            dyn:splitP ,
+                            dyn:splitPInto ;
+           rdfs:comment "When the content of one class is now described by two or more classes, and the original class is deleted"@en ;
+           rdfs:label "splitC" .
+
+
+###  http://www.dynaccurate.lu/splitCInto
+dyn:splitCInto rdf:type owl:Class ;
+               rdfs:subClassOf dyn:HeuristicChange ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty dyn:madeUpOf ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass dyn:addC
+                               ] ;
+               owl:disjointWith dyn:splitP ,
+                                dyn:splitPInto ;
+               rdfs:comment """When the content of one class is now described by two or more classes, including the original class.
+It differs from splitC because no class was deleted."""@en ;
+               rdfs:label "splitCInto" .
+
+
+###  http://www.dynaccurate.lu/splitP
+dyn:splitP rdf:type owl:Class ;
+           rdfs:subClassOf dyn:HeuristicChange ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:delP
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty dyn:madeUpOf ;
+                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass dyn:addP
+                           ] ;
+           owl:disjointWith dyn:splitPInto ;
+           rdfs:comment "When the content of one property is now described by two or more properties, and the original property is deleted"@en ;
+           rdfs:label "splitP" .
+
+
+###  http://www.dynaccurate.lu/splitPInto
+dyn:splitPInto rdf:type owl:Class ;
+               rdfs:subClassOf dyn:HeuristicChange ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty dyn:madeUpOf ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass dyn:addP
+                               ] ;
+               rdfs:comment """When the content of one property is now described by two or more properties, including the original one.
+It differs from splitP because no property was deleted."""@en ;
+               rdfs:label "splitPInto" .
+
+
+###  http://www.dynaccurate.lu/toObs
+dyn:toObs rdf:type owl:Class ;
+          rdfs:subClassOf dyn:ComplexChange ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty dyn:madeUpOf ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass dyn:addOtherA
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty dyn:madeUpOf ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass dyn:delOtherA
+                          ] ;
+          rdfs:comment "The resource is set as the obsolete (or deprecated) state"@en ;
+          rdfs:label "toObs" .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
