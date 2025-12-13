@@ -83,17 +83,17 @@
     
 
 
-    <!-- http://www.dmi.unict.memento/ontology#Add -->
+    <!-- http://www.dmi.unict.memento/ontology#AddChangeAction -->
 
-    <owl:Class rdf:about="http://www.dmi.unict.memento/ontology#Add">
+    <owl:Class rdf:about="http://www.dmi.unict.memento/ontology#AddChangeAction">
         <rdfs:subClassOf rdf:resource="http://www.dynaccurate.lu/AnyChangeAction"/>
     </owl:Class>
     
 
 
-    <!-- http://www.dmi.unict.memento/ontology#Del -->
+    <!-- http://www.dmi.unict.memento/ontology#DelChangeAction -->
 
-    <owl:Class rdf:about="http://www.dmi.unict.memento/ontology#Del">
+    <owl:Class rdf:about="http://www.dmi.unict.memento/ontology#DelChangeAction">
         <rdfs:subClassOf rdf:resource="http://www.dynaccurate.lu/AnyChangeAction"/>
     </owl:Class>
     
@@ -116,7 +116,7 @@
     <!-- http://www.dynaccurate.lu/addC -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addC">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -124,7 +124,7 @@
     <!-- http://www.dynaccurate.lu/addComment -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addComment">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -132,7 +132,7 @@
     <!-- http://www.dynaccurate.lu/addI -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addI">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -140,7 +140,7 @@
     <!-- http://www.dynaccurate.lu/addLabel -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addLabel">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -148,7 +148,7 @@
     <!-- http://www.dynaccurate.lu/addOtherA -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addOtherA">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -156,7 +156,7 @@
     <!-- http://www.dynaccurate.lu/addP -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addP">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -164,7 +164,7 @@
     <!-- http://www.dynaccurate.lu/addSupC -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addSupC">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -172,7 +172,7 @@
     <!-- http://www.dynaccurate.lu/addSupP -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/addSupP">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Add"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#AddChangeAction"/>
     </rdf:Description>
     
 
@@ -180,7 +180,7 @@
     <!-- http://www.dynaccurate.lu/delC -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delC">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -188,7 +188,7 @@
     <!-- http://www.dynaccurate.lu/delComment -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delComment">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -196,7 +196,7 @@
     <!-- http://www.dynaccurate.lu/delI -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delI">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -204,7 +204,7 @@
     <!-- http://www.dynaccurate.lu/delLabel -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delLabel">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -212,7 +212,7 @@
     <!-- http://www.dynaccurate.lu/delOtherA -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delOtherA">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -220,7 +220,7 @@
     <!-- http://www.dynaccurate.lu/delOtherR -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delOtherR">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -228,7 +228,7 @@
     <!-- http://www.dynaccurate.lu/delP -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delP">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -236,7 +236,7 @@
     <!-- http://www.dynaccurate.lu/delSupC -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delSupC">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
     
 
@@ -244,7 +244,7 @@
     <!-- http://www.dynaccurate.lu/delSupP -->
 
     <rdf:Description rdf:about="http://www.dynaccurate.lu/delSupP">
-        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#Del"/>
+        <rdfs:subClassOf rdf:resource="http://www.dmi.unict.memento/ontology#DelChangeAction"/>
     </rdf:Description>
 </rdf:RDF>
 
