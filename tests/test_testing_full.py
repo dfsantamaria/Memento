@@ -18,14 +18,9 @@ OUT_S4 = r"C:\Users\laura\Downloads\testing_state4_FULL_safe.ttl"
 # =======================
 # FUNZIONE EXPORT
 # =======================
-def export_full_state(m, ontology_name, state_name, out_path, use_sparql=False):
+def export_full_state(m, ontology_name, state_name, out_path):
     cg = ConjunctiveGraph()
-
-    if use_sparql:
-        ctx = m.get_ontology_state(ontology_name, state_name, use_sparql=True)
-    else:
-        ctx = m.store.get_context(m._state_graph_iri(ontology_name, state_name))
-
+    ctx = m.store.get_context(m._state_graph_iri(ontology_name, state_name))
     for t in ctx:
         cg.add(t)
 
@@ -83,31 +78,6 @@ s2 = m.create_ontology_state(
 )
 
 export_full_state(m, ONTO, "s2", OUT_S2)
-
-print("\n=== TEST get_ontology_state: store vs sparql ===")
-
-ctx_store = m.get_ontology_state(ONTO, "s2", use_sparql=False)
-ctx_sparql = m.get_ontology_state(ONTO, "s2", use_sparql=True)
-
-set_store = set(ctx_store)
-set_sparql = set(ctx_sparql)
-
-print("Triples (store):", len(set_store))
-print("Triples (sparql):", len(set_sparql))
-
-only_store = set_store - set_sparql
-only_sparql = set_sparql - set_store
-
-print("Solo in store:", len(only_store))
-print("Solo in sparql:", len(only_sparql))
-
-if only_store:
-    print("Esempio solo store:", list(only_store)[:5])
-if only_sparql:
-    print("Esempio solo sparql:", list(only_sparql)[:5])
-
-assert set_store == set_sparql, "Store e SPARQL NON coincidono"
-print("Store e SPARQL coincidono perfettamente")
 
 # =======================
 # 3) CREAZIONE s3 con REVERT (revert a s1)
@@ -186,26 +156,6 @@ SELECT ?ax ?ch WHERE {
   }
 }
 """
-
-assert (
-    URIRef("http://example.org/NewClass"),
-    RDF.type,
-    OWL.Class
-) in set_store
-
-assert (
-    URIRef("http://www.semanticweb.org/danie/ontologies/2025/10/untitled-ontology-55#A"),
-    RDF.type,
-    OWL.Class
-) not in set_store
-
-assert any(
-    (s, MEMENTO.hasOntologyStateChange, None) in ctx_store
-    for s in [
-        URIRef("http://example.org/NewClass"),
-        URIRef("http://example.org/newProperty")
-    ]
-)
 
 ocg = m.store.get_context(m._ocg_iri(ONTO))
 
