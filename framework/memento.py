@@ -291,9 +291,7 @@ class MementoSM:
     def _state_graph_iri(self, ontology_name, state_name):
         return make_state_graph_iri(self.base, ontology_name, state_name)
 
-    def get_ontology_state(self, ontology_name, state_name, use_sparql=False):
-        if use_sparql:
-            return self.get_ontology_state_sparql(ontology_name, state_name)
+    def get_ontology_state(self, ontology_name, state_name):
         return self.store.get_context(self._state_graph_iri(ontology_name, state_name))
 
     def get_ontology_states(self, ontology_name):
@@ -948,28 +946,6 @@ class MementoSM:
 
         self.store.persist()
         return new_state_iri
-
-    # ================================================================
-    # GET_ONTOLOGY_STATE WITH SPARQL
-    # ================================================================  
-    
-    def get_ontology_state_sparql(self, ontology_name, state_name):
-        state_graph_iri = self._state_graph_iri(ontology_name, state_name)
-
-        ds = ConjunctiveGraph(store=self.store.store)
-
-        q = f"""
-        CONSTRUCT {{
-            ?s ?p ?o .
-        }}
-        WHERE {{
-            GRAPH <{state_graph_iri}> {{
-                ?s ?p ?o .
-            }}
-        }}
-        """
-
-        return ds.query(q).graph
 
     # ================================================================
     # GET_ONTOLOGY_STATE_DIFF 
