@@ -1,0 +1,2394 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix memento: <http://example.org/memento#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "concept_effective_time" ;
+    memento:predicate <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000033> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_272099008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_276214006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "staging and scales" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_254291000> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0324" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0254" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_123038009> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "result comments" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_281296001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    memento:predicate owl:equivalentClass ;
+    memento:subject <http://purl.obolibrary.org/obo/BFO_0000038> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_definition_status_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000036> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0156" ;
+    memento:object <http://purl.obolibrary.org/obo/BFO_0000141> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_123037004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_123035007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "spatial and relational concepts" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_309825002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "qualifier for type of diagnosis"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106229004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_394731006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "" ;
+    memento:predicate rdfs:seeAlso ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000031> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0247" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_419891008> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "unit" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246514001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_297289008> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.list.lu/change-ontology/addI> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.dmi.unict.memento/ontology#OntologyStateChange> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129380009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_278444000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288529006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_422096002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_destinationId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000021> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "unknown"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_261665006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288532009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "number"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_260299005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_422133006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "precondition" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704326004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "laboratory procedure" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_108252007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "findings category type"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_276214006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_394731006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_type_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000022> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "IsDestinationOf" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000024> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "description_term" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000010> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_307120002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "surgical transplantation - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410820007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0313" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408729009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0288" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246090004> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "use"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419385000> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0364" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704320005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "problem status"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_394731006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "findings values" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_260245000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_413529001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129300006> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0156" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_123037004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "special atomic mapping values" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_281586009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_effective_time" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000033> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_effectiveTime" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000014> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_relationshipGroup" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000017> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Has_description" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_0000006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "afternoon"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_422133006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_703763000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419988009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "laboratory procedure"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO:0001944> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704327008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257867005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.dmi.unict.memento/ontology#OntologyStateChange> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "The environment or geographical location  hierarchy includes types of  environments as well as named locations such as countries, states, and regions." ;
+    memento:predicate <http://purl.obolibrary.org/obo/IAO_0000115> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_308916002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "units" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246514001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "concept_active" ;
+    memento:predicate <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000030> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "take"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419652001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129347002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360032005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_36692007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419988009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106235004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0237" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_308916002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "description_active" ;
+    memento:predicate <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000005> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0240" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_308916002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_223496003> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0041" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704318007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "action" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "precondition value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_703763000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419385000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129407005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410820007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0021" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_363787002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "characterizes" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704321009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "legal proceeding"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_307120002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "descriptor"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_272099008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:AnnotationProperty ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "grades" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_258349007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_21703008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408731000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129347002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "current or specified"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410512000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129371009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129379006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "special atomic mapping value" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_281586009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0204" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704319004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "observes" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704347000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288529006> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288532009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_effective_time" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000014> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410511007> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410512000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410514004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410536001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "property type" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704318007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_308910008> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "ranked category" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_272396007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360032005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_71388002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO:0001944> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "technique" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246501002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "concept_definition_status_Id" ;
+    memento:predicate <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000036> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_108252007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0258" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_71388002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_108252007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0043" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_254291000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "surgical action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129284003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object <http://purl.obolibrary.org/obo/BFO_0000003> ;
+    memento:predicate owl:disjointWith ;
+    memento:subject <http://purl.obolibrary.org/obo/BFO_0000002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_description_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_000000003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_131195008> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "is_description_of" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000012> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "known"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_36692007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0022" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246501002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106229004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129284003> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129371009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129371009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "gluing - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360038009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129347002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129348007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_languageCode" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_moduleId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "description_effective_time" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "10-2-2017" ;
+    memento:predicate dc:date ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "reference documentation"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_308910008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "environment or geographical location" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_308916002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106239005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360220002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_destination_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000021> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "fusion - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129379006> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0055" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_363555003> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_source_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000020> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "anchoring - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129380009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129264002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "IsSourceOf" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000023> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0366" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704323007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0111" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_78621006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408729009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "severity" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_272141005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO:0001944> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "associated procedure" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_363589002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "grafting - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129407005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "scale way"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_278444000> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0287" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704346009> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704321009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288531002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360038009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "mode of transmission value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_414753003> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_698078002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "stage and scale" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_254291000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_363555003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_609096000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "modifier mainly for procedure"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106239005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_115670007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246090004> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "grouped_relation" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/SCTO.owl#SCTO_00000037> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Concept_effectiveTime" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000033> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_module_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000016> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_123035007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "classification system"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_115670007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_413529001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Concept_definitionStatusId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000036> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_115670007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288532009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410536001> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_description" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_0000006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129407005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_422096002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288529006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257937003> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_297289008> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0283" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_260787004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129348007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "description_module_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410820007> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129347002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "fixation - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129371009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129325002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "past"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410513005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704346009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_261665006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "the same as"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_115268005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_modifierId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000019> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129264002> ;
+    memento:predicate owl:equivalentClass ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "direct site" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704327008> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "action of drug administration"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419988009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0356" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_131195008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "20-1-2016" ;
+    memento:predicate owl:versionInfo ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO:0001943> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0318" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_363589002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "modifier related to basic science"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106235004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_272099008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object <http://purl.obolibrary.org/obo/BFO_0000024> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_123037004> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0134" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704321009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0034" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410607006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "ranked categories" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_272396007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_272512009> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704326004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Concept_active" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000030> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0070" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_272379006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "grading value" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_264752007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288532009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_385660001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129284003> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "not done"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_385660001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704318007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "concept_Id" ;
+    memento:predicate <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000031> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_425362007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "surgical insertion - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_425362007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "finding context" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408729009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "description_language_code" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "relative to" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704325000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "is_destination_of" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000024> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704320005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "mechanism of disease spread value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_698078002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "1-1-2017" ;
+    memento:predicate dc:date ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "process duration" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704323007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_307120002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "intention value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_363555003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "temporal context" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408731000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257544000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.list.lu/change-ontology/addC> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_308916002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "surgical piercing - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_430975009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.dmi.unict.memento/ontology#OntologyStateChange> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000013> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_414753003> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "is_active_description" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "finding value" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_260245000> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "subject relationship context" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408732007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_ID" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_000000003> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410514004> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_261665006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_active" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "context value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288529006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "procedure context" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408730004> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0190" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_128927009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_386053000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "physical hazard"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_21703008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_308910008> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.list.lu/change-ontology/delI> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_415240008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257544000> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_effectiveTime" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000004> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0329" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_71388002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_128927009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "is_active_term" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000030> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "towards" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704320005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704324001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_caseSignificanceId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000011> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0274" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_609096000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_71388002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO:0001943> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.list.lu/change-ontology/addP> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0003> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_272512009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106235004> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "current or past"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410511007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_385660001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "interprets" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_363714003> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410512000> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0307" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704325000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "dosing instruction fragment"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_422096002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "mapping - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360220002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "SCT action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129264002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_386053000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "modifier of Analyte and Substance"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_115268005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_modifier_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000019> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410510008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_128927009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_118598001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_698078002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_260299005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "12 hours"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_123035007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "associated finding" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246090004> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "description_case_significance_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000011> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "evaluation procedure" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_386053000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "temporal context value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410510008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_moduleId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000016> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410513005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129264002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106229004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408732007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "is_relationship_active" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000015> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0262" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408730004> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0193" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_308916002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_276339004> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0203" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_373873005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "Version 2.0" ;
+    memento:predicate owl:versionInfo ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410511007> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410513005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257867005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_425362007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "is_source_of" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000023> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_115268005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "mechanism"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257544000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "physiological value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_272512009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "anatomic reference point"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_413529001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_106239005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704322002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "description_type_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000009> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704647008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129325002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288529006> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410514004> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Concept_Id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000031> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "10-2-2017" ;
+    memento:predicate owl:versionInfo ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "action" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "specified by" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704346009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410820007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "contraindicated"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410536001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_276214006> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0293" ;
+    memento:object <http://purl.obolibrary.org/obo/BFO_0000001> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129300006> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_430975009> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360220002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410514004> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_36692007> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0044" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704322002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129371009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129380009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.list.lu/change-ontology/delC> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Concept_moduleId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000035> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_363589002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_module_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000035> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "grade" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_258349007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "context value for action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288532009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0248" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408731000> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0058" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/OGMS_0000014> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "surgical transfer - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129347002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Grouped_Relations" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/SCTO.owl#SCTO_00000037> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704325000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.dmi.unict.memento/ontology#OntologyStateChange> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "result comment" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_281296001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_characteristicTypeId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000018> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "ratio value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_415240008> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704323007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "puncture - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129300006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "is about" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704647008> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0154" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_105590001> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "spatial and relational concept" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_309825002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "inheres in" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704319004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129379006> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "introduction - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129325002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "measurement property"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_118598001> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_relationship_group" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000017> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288529006> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410510008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_430975009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0177" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704347000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "finding context value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410514004> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0229" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408732007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_characteristic_type_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000018> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_active" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000015> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129300006> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_415240008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410511007> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_408730004> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "evaluation procedure"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#DTO:0001943> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_246501002> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0075" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_138875005> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_71388002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_703763000> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129347002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257937003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_typeId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000022> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000031> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "time frame"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_typeId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000009> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704319004> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "insertion - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257867005> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "finding status value"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288531002> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "Z-plasty - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129348007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_21703008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410510008> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_410511007> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419652001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "process output" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704324001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_278444000> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0179" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704647008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <http://purl.obolibrary.org/obo/BFO_0000015> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_129264002_2> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "interpret" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_363714003> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_414753003> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0311" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704324001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "process agent" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704322002> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_425362007> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129407005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "grading values" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_264752007> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "flap reconstruction - action"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360032005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419988009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419652001> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "severities" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_272141005> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_260299005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Version 1.0" ;
+    memento:predicate owl:versionInfo ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "soft tissue transfer"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257937003> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "world language"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_297289008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129371009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_360038009> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0365" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704327008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object "concept_module_id" ;
+    memento:predicate <https://bioportal.bioontology.org/ontologies/SCTO#DTO_0001709> ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000035> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_422133006> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "subject of information" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_131195008> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129284003> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "procedure by method" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_128927009> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object "has_relationship_id" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000013> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_288531002> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "IsDescriptionOf" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000012> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_118598001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0004" ;
+    memento:object <http://purl.obolibrary.org/obo/IAO_0000030> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000000> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "role group" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_609096000> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Relationship_sourceId" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000020> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object <http://purl.obolibrary.org/obo/BFO_0000031> ;
+    memento:predicate owl:disjointWith ;
+    memento:subject <http://purl.obolibrary.org/obo/BFO_0000004> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419988009> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_419385000> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704347000> .
+
+[] a memento:Addition ;
+    memento:changeType "None" ;
+    memento:object <http://www.dmi.unict.memento/ontology#OntologyStateChange> ;
+    memento:predicate rdf:type ;
+    memento:subject <http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001> .
+
+[] a memento:Addition ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:53Z-s1-0001" ;
+    memento:object <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_129325002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_257867005> .
+
+[] a memento:Removal ;
+    memento:changeType "None" ;
+    memento:object "Description_term" ;
+    memento:predicate rdfs:label ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_00000010> .
+
+[] a memento:Removal ;
+    memento:changeType "http://example.org/memento/change/SCTO/SCTO-2026-01-29T11:51:52Z-s0-0243" ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_410662002> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <http://purl.obolibrary.org/obo/ogms.owl#SCTO_704326004> .
+
