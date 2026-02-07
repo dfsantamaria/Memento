@@ -1,0 +1,9 @@
+@prefix memento: <http://example.org/memento#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+[] a memento:Addition ;
+    memento:changeType <http://www.dmi.unict.memento/ontology#AddChangeAction> ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
