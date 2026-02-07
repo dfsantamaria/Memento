@@ -181,8 +181,8 @@ export_full_state(m, ONTO, "s3", OUT_S3)
 # 5) DIFF 
 # =======================
 
-print("\n=== DIFF s0 → s1 ===")
-added, removed = m.get_ontology_state_diff(ONTO, "s0", "s1")
-OUT_DIFF = BASE_OUT / "SCTO_delta_s0_s1.ttl"
+print("\n=== DIFF s2 → s1 ===")
+added, removed = m.get_ontology_state_diff(ONTO, "s2", "s1")
+OUT_DIFF = BASE_OUT / "SCTO_delta_s2_s1.ttl"
 export_diff_as_rdf(added, removed, OUT_DIFF)
 
