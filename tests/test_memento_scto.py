@@ -10,7 +10,20 @@ def export_diff_as_rdf(added, removed, out_path):
     g = Graph()
     g.bind("memento", MEMENTO)
 
+    def is_valid_content(triple):
+        s, p, o = triple
+        if p == RDF.type and o == OWL.Class:
+            return True
+        if p in (RDFS.subClassOf, RDFS.label, RDFS.comment):
+            return True
+        return False
+
     def add_change(triple, change_type, kind):
+        if not is_valid_content(triple):
+            return
+        if change_type is None:
+            return
+
         s, p, o = triple
         bn = BNode()
 
@@ -18,7 +31,7 @@ def export_diff_as_rdf(added, removed, out_path):
         g.add((bn, MEMENTO.subject, s))
         g.add((bn, MEMENTO.predicate, p))
         g.add((bn, MEMENTO.object, o))
-        g.add((bn, MEMENTO.changeType, Literal(str(change_type))))
+        g.add((bn, MEMENTO.changeType, change_type))
 
     for triple, ch_type in added:
         add_change(triple, ch_type, MEMENTO.Addition)
@@ -42,8 +55,8 @@ BASE_OUT.mkdir(exist_ok=True)
 
 OUT_S0 = BASE_OUT / "SCTO_state0.ttl"
 OUT_S1 = BASE_OUT / "SCTO_state1.ttl"
-OUT_S2 = BASE_OUT / "SCTO_state2_revert.ttl"
-OUT_S3 = BASE_OUT / "SCTO_state3_remove.ttl"
+OUT_S2 = BASE_OUT / "SCTO_state2_remove.ttl"
+OUT_S3 = BASE_OUT / "SCTO_state3_revert.ttl"
 OUT_DIFF = BASE_OUT / "SCTO_delta_s0_s1.ttl"
 # =======================
 # EXPORT FUNCTION
@@ -94,39 +107,37 @@ def normalize_changes(changes):
 
 changes_s1 = normalize_changes(changes_s1)
 
-print("\n=== CREATION s1 (SCTO 2.0) ===")
+TARGET_CLASS = URIRef(
+    "https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001"
+)
+
+def filter_changes_for_class(changes, target):
+    filtered = []
+    for (s, p, o), op in changes:
+        if s == target:
+            filtered.append(((s, p, o), op))
+    return filtered
+
+changes_s1_one_class = filter_changes_for_class(
+    changes_s1,
+    TARGET_CLASS
+)
 
 s1 = m.create_ontology_state(
     ontology_name=ONTO,
-    changes=changes_s1,
+    changes=changes_s1_one_class,
     state_name="s1",
     author="Shaker_El-Sappagh",
     version="2.0.0",      
     prev_state_name="s0",
-    bulk=True
+    bulk=False
 )
 
 export_full_state(m, ONTO, "s1", OUT_S1)
 
 # =======================
-# 3) S2 — REVERT
+# 3) S2 — REMOVE
 # =======================
-
-s2 = m.revert_ontology(
-    ONTO,
-    target_state="s0",
-    new_state_name="s2",
-    author="Shaker_El-Sappagh",
-    version="1.0.0-revert"
-)
-
-export_full_state(m, ONTO, "s2", OUT_S2)
-
-# =======================
-# 4) S3 — REMOVE
-# =======================
-print("\n=== CREATION s3 ===")
-
 def invert_change_type(ch_type):
     local = str(ch_type)
     if local.endswith("addC"): return DYNDIFF.delC
@@ -137,16 +148,31 @@ def invert_change_type(ch_type):
     if local.endswith("delI"): return DYNDIFF.addI
     return ch_type
 
-changes_s3 = [ (t, invert_change_type(tp)) for (t, tp) in changes_s1 ]
+# invertiamo SOLO le triple della classe target
+changes_s2 = [(t, invert_change_type(tp)) for (t, tp) in changes_s1_one_class]
 
-s3 = m.create_ontology_state(
-    ONTO,
-    changes_s3,
-    "s3",
-    "Shaker_El-Sappagh",
-    version="2.0.0-remove",
+s2 = m.create_ontology_state(
+    ontology_name=ONTO,
+    changes=changes_s2,
+    state_name="s2",
+    author="Shaker_El-Sappagh",
+    version="2.0.0-remove-one",
     prev_state_name="s1",
-    bulk=True
+    bulk=False
+)
+
+export_full_state(m, ONTO, "s2", OUT_S2)
+
+# =======================
+# 4) S3 — REVERT
+# =======================
+
+s3 = m.revert_ontology(
+    ONTO,
+    target_state="s1",
+    new_state_name="s3",
+    author="Shaker_El-Sappagh",
+    version="2.0.0-revert"
 )
 
 export_full_state(m, ONTO, "s3", OUT_S3)
@@ -154,12 +180,9 @@ export_full_state(m, ONTO, "s3", OUT_S3)
 # =======================
 # 5) DIFF 
 # =======================
+
 print("\n=== DIFF s0 → s1 ===")
-
 added, removed = m.get_ontology_state_diff(ONTO, "s0", "s1")
-
-print("Added:", len(added))
-print("Removed:", len(removed))
-
-OUT_DIFF = BASE_DIR / "SCTO_s0_to_s1_diff.ttl"
+OUT_DIFF = BASE_OUT / "SCTO_delta_s0_s1.ttl"
 export_diff_as_rdf(added, removed, OUT_DIFF)
+
