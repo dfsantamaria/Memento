@@ -25,7 +25,9 @@ PROV = Namespace("http://www.w3.org/ns/prov#")
 # OFFICIALS IMPORTS (per owl:imports)
 # ==========================
 
-IMPORT_MEMENTO  = URIRef("http://www.dmi.unict.memento/ontology")
+IMPORT_MEMENTO  = URIRef(
+    "https://raw.githubusercontent.com/dfsantamaria/Memento/main/ontologies/memento-o.owl"
+)
 IMPORT_DYNDIFF  = URIRef("http://www.list.lu/change-ontology/")
 IMPORT_PROVO    = URIRef("http://www.w3.org/ns/prov-o#")
 
@@ -425,12 +427,13 @@ class MementoSM:
         }
 
         SYSTEM_PREDS = {
-            OWL.annotatedSource, OWL.annotatedProperty, OWL.annotatedTarget,
-
-            MEMENTO.hasOntologyState, MEMENTO.hasOntologyStateChange,
-            PROV.startedAtTime, PROV.generatedAtTime, PROV.wasGeneratedBy,
-
-            OWL.imports, RDF.type
+            OWL.annotatedSource,
+            OWL.annotatedProperty,
+            OWL.annotatedTarget,
+            MEMENTO.hasOntologyState,
+            MEMENTO.hasOntologyStateChange,
+            OWL.imports,
+            RDF.type
         }
 
         entity_to_change = {}
@@ -471,19 +474,12 @@ class MementoSM:
 
             # OCG
             ocg.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-            ocg.add((ch_iri, RDF.type, ch_type))
-            ocg.add((ch_iri, RDF.type, DYNDIFF.BasicChange))
-            ocg.add((ch_iri, RDF.type, PROV.Entity))
             ocg.add((ch_iri, RDF.type, change_action_class(ch_type)))
-            ocg.add((ch_iri, PROV.generatedAtTime, ts_lit))
-            ocg.add((ch_iri, PROV.wasGeneratedBy, agent_iri))
             ocg.add((ch_iri, MEMENTO.hasOntologyState, state_iri))
 
             # STATE GRAPH
             state_graph.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-            state_graph.add((ch_iri, RDF.type, ch_type))
-            state_graph.add((ch_iri, PROV.generatedAtTime, ts_lit))
-            state_graph.add((ch_iri, PROV.wasGeneratedBy, agent_iri))
+            state_graph.add((ch_iri, RDF.type, change_action_class(ch_type)))
             state_graph.add((ch_iri, MEMENTO.hasOntologyState, state_iri))
 
             state_graph.set((ent, MEMENTO.hasOntologyStateChange, ch_iri))
@@ -654,19 +650,6 @@ class MementoSM:
         # FILTER VALID CHANGES 
         # --------------------------
 
-        ANNOTATION_PROPS = {
-            RDFS.comment, RDFS.label,
-            OWL.versionInfo, OWL.priorVersion,
-            OWL.backwardCompatibleWith, OWL.incompatibleWith
-        }
-
-        SYSTEM_PREDS = {
-            OWL.annotatedSource, OWL.annotatedProperty, OWL.annotatedTarget,
-            MEMENTO.hasOntologyState, MEMENTO.hasOntologyStateChange,
-            PROV.startedAtTime, PROV.generatedAtTime, PROV.wasGeneratedBy,
-            OWL.imports
-        }
-
         changes = [
             ((s, p, o), t)
             for ((s, p, o), t) in changes
@@ -700,7 +683,7 @@ class MementoSM:
         declare_version_dataprops(new_state_graph)
 
         # --------------------------
-        # COPY PREVIOUS STATE 
+        # COPY PREVIOUS STATE
         # --------------------------
 
         if prev_state_name:
@@ -708,18 +691,15 @@ class MementoSM:
 
             for (s, p, o) in set(prev_ctx):
 
-                if p == RDF.type and o == OWL.NamedIndividual:
-                    if (
-                        (s, RDF.type, OWL.Class) in prev_ctx or
-                        (s, RDF.type, OWL.ObjectProperty) in prev_ctx or
-                        (s, RDF.type, OWL.DatatypeProperty) in prev_ctx or
-                        (s, RDF.type, OWL.AnnotationProperty) in prev_ctx
-                    ):
-                        continue
+                if (s, RDF.type, OWL.Axiom) in prev_ctx:
+                    continue
 
-                if p in (MEMENTO.hasOntologyState, MEMENTO.hasOntologyStateChange):
-                    if (s, RDF.type, OWL.Axiom) not in prev_ctx:
-                        continue
+                if p in (
+                    OWL.annotatedSource,
+                    OWL.annotatedProperty,
+                    OWL.annotatedTarget
+                ):
+                    continue
 
                 if isinstance(s, BNode):
                     continue
@@ -828,7 +808,7 @@ class MementoSM:
                 ocg.add((iri, RDF.type, DYNDIFF.BasicChange))
                 ocg.add((iri, RDF.type, PROV.Entity))
                 ocg.add((iri, RDF.type, change_action_class(ch_type)))
-                ocg.add((iri, PROV.generatedAtTime, ts_literal))
+                ocg.add((iri, PROV.startedAtTime, ts_literal))
                 ocg.add((iri, PROV.wasGeneratedBy, agent_iri))
                 ocg.add((iri, MEMENTO.hasOntologyState, new_state_iri))
                 ocg.add((iri, RDF.type, MEMENTO.OntologyStateChange))
@@ -837,11 +817,27 @@ class MementoSM:
             if not isinstance(s, URIRef):
                 continue
 
-            if DYNDIFF.addC == ch_type or DYNDIFF.addP == ch_type or DYNDIFF.addI == ch_type:
-                new_state_graph.add((s, p, o))
+            if DYNDIFF.addC == ch_type:
+                if (s, RDF.type, OWL.Class) not in new_state_graph:
+                    new_state_graph.add((s, RDF.type, OWL.Class))
 
-            elif DYNDIFF.delC == ch_type or DYNDIFF.delP == ch_type or DYNDIFF.delI == ch_type:
-                new_state_graph.remove((s, p, o))
+            if DYNDIFF.addI == ch_type:
+                if (s, p, o) not in new_state_graph:
+                    new_state_graph.add((s, p, o))
+
+            elif DYNDIFF.delC == ch_type:
+                for triple in list(new_state_graph.triples((s, None, None))):
+                    _, pred, obj = triple
+
+                    if pred in (
+                        MEMENTO.hasOntologyStateChange,
+                        RDF.type,
+                        RDFS.label,
+                        RDFS.comment
+                    ):
+                        continue
+
+                    new_state_graph.remove(triple)
 
         # --------------------------
         #  DELTA + AXIOMS
@@ -867,19 +863,12 @@ class MementoSM:
 
                     # OCG
                     ocg.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    ocg.add((ch_iri, RDF.type, ch_type))
-                    ocg.add((ch_iri, RDF.type, DYNDIFF.BasicChange))
-                    ocg.add((ch_iri, RDF.type, PROV.Entity))
                     ocg.add((ch_iri, RDF.type, change_action_class(ch_type)))
-                    ocg.add((ch_iri, PROV.generatedAtTime, ts_literal))
-                    ocg.add((ch_iri, PROV.wasGeneratedBy, agent_iri))
                     ocg.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
 
                     # STATE GRAPH
                     new_state_graph.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    new_state_graph.add((ch_iri, RDF.type, ch_type))
-                    new_state_graph.add((ch_iri, PROV.generatedAtTime, ts_literal))
-                    new_state_graph.add((ch_iri, PROV.wasGeneratedBy, agent_iri))
+                    new_state_graph.add((ch_iri, RDF.type, change_action_class(ch_type)))
                     new_state_graph.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
 
                 entity_to_change[s] = bulk_change_for_type[ch_type]
@@ -905,19 +894,12 @@ class MementoSM:
 
                     # OCG
                     ocg.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    ocg.add((ch_iri, RDF.type, ch_type))
-                    ocg.add((ch_iri, RDF.type, DYNDIFF.BasicChange))
-                    ocg.add((ch_iri, RDF.type, PROV.Entity))
                     ocg.add((ch_iri, RDF.type, change_action_class(ch_type)))
-                    ocg.add((ch_iri, PROV.generatedAtTime, ts_literal))
-                    ocg.add((ch_iri, PROV.wasGeneratedBy, agent_iri))
                     ocg.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
 
                     # STATE GRAPH
                     new_state_graph.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    new_state_graph.add((ch_iri, RDF.type, ch_type))
-                    new_state_graph.add((ch_iri, PROV.generatedAtTime, ts_literal))
-                    new_state_graph.add((ch_iri, PROV.wasGeneratedBy, agent_iri))
+                    new_state_graph.add((ch_iri, RDF.type, change_action_class(ch_type)))
                     new_state_graph.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
 
         for (s, p, o), ch_type in changes:
@@ -933,13 +915,19 @@ class MementoSM:
             ch_iri = entity_to_change[s]
             axiom_iri = make_axiom_iri(self.base, ontology_name)
 
-            # OCG
             ocg.add((axiom_iri, RDF.type, OWL.Axiom))
             ocg.add((axiom_iri, OWL.annotatedSource, s))
             ocg.add((axiom_iri, OWL.annotatedProperty, p))
             ocg.add((axiom_iri, OWL.annotatedTarget, o))
             ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
             ocg.add((axiom_iri, MEMENTO.hasOntologyState, new_state_iri))
+
+            new_state_graph.add((axiom_iri, RDF.type, OWL.Axiom))
+            new_state_graph.add((axiom_iri, OWL.annotatedSource, s))
+            new_state_graph.add((axiom_iri, OWL.annotatedProperty, p))
+            new_state_graph.add((axiom_iri, OWL.annotatedTarget, o))
+            new_state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
+            new_state_graph.add((axiom_iri, MEMENTO.hasOntologyState, new_state_iri))
 
         for ent, ch_iri in entity_to_change.items():
             new_state_graph.add((ent, MEMENTO.hasOntologyStateChange, ch_iri))
@@ -1032,27 +1020,21 @@ class MementoSM:
                 if (ax, OWL.annotatedTarget, o) not in ocg: continue
                 if (ax, MEMENTO.hasOntologyState, state_iri) not in ocg: continue
                 for ch in ocg.objects(ax, MEMENTO.hasOntologyStateChange):
-                    return ch
+                    for t in ocg.objects(ch, RDF.type):
+                        if t in (MEMENTO.AddChangeAction, MEMENTO.DelChangeAction):
+                            return t
             return None
 
         added_list = [(t, find_type(t, s2_iri)) for t in added]
         removed_list = [(t, find_type(t, s1_iri)) for t in removed]
 
         return added_list, removed_list
+    
 
     # ================================================================
     # REVERT
     # ================================================================
     def revert_ontology(self, ontology_name, target_state, new_state_name, author, version=None):
-
-        """
-        Reverts the ontology to a previous state by computing the inverse
-        delta between the current state and the target state.
-
-        The revert operation is implemented as a new ontology state,
-        preserving full provenance and change history, rather than
-        modifying existing states.
-        """
 
         target_graph = self.get_ontology_state(ontology_name, target_state)
 
@@ -1073,8 +1055,11 @@ class MementoSM:
             if self.is_content_triple(s,p,o)
         }
 
-        delta_remove = []
+        delta = []
 
+        # -------------------------
+        # REMOVE (current - target)
+        # -------------------------
         for (s,p,o) in pure_current - pure_target:
             if p == RDF.type and o == OWL.Class:
                 ch = DYNDIFF.delC
@@ -1087,20 +1072,37 @@ class MementoSM:
             else:
                 ch = DYNDIFF.delI
 
-            delta_remove.append(((s,p,o), ch))
+            delta.append(((s,p,o), ch))
+
+        # -------------------------
+        # ADD (target - current)
+        # -------------------------
+        for (s,p,o) in pure_target - pure_current:
+            if p == RDF.type and o == OWL.Class:
+                ch = DYNDIFF.addC
+            elif p == RDF.type and o in (
+                OWL.ObjectProperty,
+                OWL.DatatypeProperty,
+                OWL.AnnotationProperty
+            ):
+                ch = DYNDIFF.addP
+            else:
+                ch = DYNDIFF.addI
+
+            delta.append(((s,p,o), ch))
 
         if version is None:
             version = f"revert_to_{target_state}"
 
         return self.create_ontology_state(
             ontology_name,
-            delta_remove,
+            delta,
             new_state_name,
             author,
             version=version,
             prev_state_name=current_state
         )
-    
+
     # ================================================================
     # REMOVE
     # ================================================================
