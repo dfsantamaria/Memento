@@ -177,6 +177,39 @@ def is_system_triple(s, p, o, base_uri):
 
     return False
 
+def get_or_create_axiom(g: Graph, base_uri: str, ontology_name: str, s, p, o):
+    for ax in g.subjects(RDF.type, OWL.Axiom):
+        if (ax, OWL.annotatedSource, s) in g and \
+           (ax, OWL.annotatedProperty, p) in g and \
+           (ax, OWL.annotatedTarget, o) in g:
+            return ax
+
+    axiom_iri = make_axiom_iri(base_uri, ontology_name)
+    g.add((axiom_iri, RDF.type, OWL.Axiom))
+    g.add((axiom_iri, OWL.annotatedSource, s))
+    g.add((axiom_iri, OWL.annotatedProperty, p))
+    g.add((axiom_iri, OWL.annotatedTarget, o))
+    return axiom_iri
+
+def copy_bnode_closure(src_g: Graph, dst_g: Graph, node):
+    """
+    Copia ricorsivamente tutte le triple con soggetto = node,
+    seguendo anche i BNode come oggetto (owl:Restriction, rdf:list, ecc.)
+    """
+    stack = [node]
+    seen = set()
+
+    while stack:
+        n = stack.pop()
+        if n in seen:
+            continue
+        seen.add(n)
+
+        for (s, p, o) in src_g.triples((n, None, None)):
+            if (s, p, o) not in dst_g:
+                dst_g.add((s, p, o))
+            if isinstance(o, BNode) and o not in seen:
+                stack.append(o)
 
 # ================================================================
 # MEMENTO-SM — MODULE 2
@@ -371,12 +404,6 @@ class MementoSM:
         if ontology_iri is None:
             ontology_iri = URIRef(f"http://example.org/ontology/{ontology_name}")
 
-        def is_safe_to_copy_to_state(s, p, o):
-            if p in (OWL.equivalentClass, RDFS.subClassOf):
-                if isinstance(o, BNode):
-                    return False
-            return True
-
         # HEADER AND IMPORTS
         declare_imports_in_state_graph(state_graph, ontology_iri)
         for pfx, ns in [
@@ -403,15 +430,18 @@ class MementoSM:
                 filtered.append((s, p, o))
 
             if p not in (RDFS.comment,):
-                if is_safe_to_copy_to_state(s, p, o):
-                    if p == RDF.type and o == OWL.NamedIndividual:
-                        if (
-                            (s, RDF.type, OWL.Class) in g_in or
-                            (s, RDF.type, OWL.ObjectProperty) in g_in or
-                            (s, RDF.type, OWL.DatatypeProperty) in g_in
-                        ):
-                            continue
-                    state_graph.add((s, p, o))
+                if p == RDF.type and o == OWL.NamedIndividual:
+                    if (
+                        (s, RDF.type, OWL.Class) in g_in or
+                        (s, RDF.type, OWL.ObjectProperty) in g_in or
+                        (s, RDF.type, OWL.DatatypeProperty) in g_in
+                    ):
+                        continue
+
+                state_graph.add((s, p, o))
+
+                if isinstance(o, BNode):
+                    copy_bnode_closure(g_in, state_graph, o)
 
         ts = iso_timestamp()
         ts_lit = Literal(ts, datatype=XSD.dateTime)
@@ -485,8 +515,7 @@ class MementoSM:
             state_graph.set((ent, MEMENTO.hasOntologyStateChange, ch_iri))
 
         # --------------------------
-        # REIFICATION TBOX AXIOMS (equivalentClass, subClassOf, ecc.)
-        # con state and change annotations
+        # REIFICATION TBOX AXIOMS 
         # --------------------------
 
         for (s, p, o) in filtered:
@@ -498,9 +527,6 @@ class MementoSM:
                 RDFS.domain,
                 RDFS.range
             ):
-                continue
-
-            if isinstance(o, BNode):
                 continue
 
             axiom_iri = make_axiom_iri(self.base, ontology_name)
@@ -691,20 +717,16 @@ class MementoSM:
 
             for (s, p, o) in set(prev_ctx):
 
-                if (s, RDF.type, OWL.Axiom) in prev_ctx:
+                if p in (OWL.annotatedSource, OWL.annotatedProperty, OWL.annotatedTarget):
                     continue
 
-                if p in (
-                    OWL.annotatedSource,
-                    OWL.annotatedProperty,
-                    OWL.annotatedTarget
-                ):
-                    continue
-
-                if isinstance(s, BNode):
+                if p == RDF.type and o == OWL.Axiom:
                     continue
 
                 new_state_graph.add((s, p, o))
+
+                if isinstance(o, BNode):
+                    copy_bnode_closure(prev_ctx, new_state_graph, o)
 
         # --------------------------
         # COPY hasOntologyStateChange FROM PREVIOUS STATE
@@ -817,15 +839,15 @@ class MementoSM:
             if not isinstance(s, URIRef):
                 continue
 
-            if DYNDIFF.addC == ch_type:
+            if ch_type == DYNDIFF.addC:
                 if (s, RDF.type, OWL.Class) not in new_state_graph:
                     new_state_graph.add((s, RDF.type, OWL.Class))
 
-            if DYNDIFF.addI == ch_type:
+            elif ch_type in (DYNDIFF.addI, DYNDIFF.addP):
                 if (s, p, o) not in new_state_graph:
                     new_state_graph.add((s, p, o))
 
-            elif DYNDIFF.delC == ch_type:
+            elif ch_type == DYNDIFF.delC:
                 for triple in list(new_state_graph.triples((s, None, None))):
                     _, pred, obj = triple
 
@@ -833,107 +855,59 @@ class MementoSM:
                         MEMENTO.hasOntologyStateChange,
                         RDF.type,
                         RDFS.label,
-                        RDFS.comment
+                        RDFS.comment,
+                        RDFS.isDefinedBy,
+                        RDFS.subClassOf,
+                        OWL.equivalentClass,
+                        OWL.versionInfo
+
                     ):
                         continue
 
                     new_state_graph.remove(triple)
 
         # --------------------------
-        #  DELTA + AXIOMS
-        # (1 OntologyStateChange X CHANGE TYPE)
-        # (1 OntologyStateChange X ENTITY)
+        #  DELTA + AXIOMS 
         # --------------------------
 
+        from collections import defaultdict
+
+        changes_by_entity = defaultdict(list)
+        for (s, p, o), ch_type in changes:
+            if isinstance(s, URIRef):
+                changes_by_entity[s].append(((s, p, o), ch_type))
+
         entity_to_change = {}
-        bulk_change_for_type = {}
         change_seq = 0
 
-        for (s, p, o), ch_type in changes:
-            if not isinstance(s, URIRef):
-                continue
-            
-            if bulk:
-                if ch_type not in bulk_change_for_type:
-                    change_seq += 1
-                    ch_iri = make_change_iri(
-                        self.base, ontology_name, ts, state_name, change_seq
-                    )
-                    bulk_change_for_type[ch_type] = ch_iri
+        for ent, triples in changes_by_entity.items():
+            change_seq += 1
+            ch_iri = make_change_iri(self.base, ontology_name, ts, state_name, change_seq)
+            entity_to_change[ent] = ch_iri
 
-                    # OCG
-                    ocg.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    ocg.add((ch_iri, RDF.type, change_action_class(ch_type)))
-                    ocg.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
+            any_del = any(str(t).split("/")[-1].startswith("del") for (_, t) in triples)
+            action_cls = MEMENTO.DelChangeAction if any_del else MEMENTO.AddChangeAction
 
-                    # STATE GRAPH
-                    new_state_graph.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    new_state_graph.add((ch_iri, RDF.type, change_action_class(ch_type)))
-                    new_state_graph.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
+            ocg.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
+            ocg.add((ch_iri, RDF.type, action_cls))
+            ocg.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
 
-                entity_to_change[s] = bulk_change_for_type[ch_type]
+            new_state_graph.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
+            new_state_graph.add((ch_iri, RDF.type, action_cls))
+            new_state_graph.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
 
-            else: 
-
-                if ch_type in (DYNDIFF.addC, DYNDIFF.addP, DYNDIFF.addI):
-                    if not (
-                        (s, RDF.type, OWL.Class) in new_state_graph or
-                        (s, RDF.type, OWL.ObjectProperty) in new_state_graph or
-                        (s, RDF.type, OWL.DatatypeProperty) in new_state_graph or
-                        (s, RDF.type, OWL.AnnotationProperty) in new_state_graph or
-                        (s, RDF.type, OWL.NamedIndividual) in new_state_graph
-                    ):
-                        continue
-
-                if s not in entity_to_change:
-                    change_seq += 1
-                    ch_iri = make_change_iri(
-                        self.base, ontology_name, ts, state_name, change_seq
-                    )
-                    entity_to_change[s] = ch_iri
-
-                    # OCG
-                    ocg.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    ocg.add((ch_iri, RDF.type, change_action_class(ch_type)))
-                    ocg.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
-
-                    # STATE GRAPH
-                    new_state_graph.add((ch_iri, RDF.type, MEMENTO.OntologyStateChange))
-                    new_state_graph.add((ch_iri, RDF.type, change_action_class(ch_type)))
-                    new_state_graph.add((ch_iri, MEMENTO.hasOntologyState, new_state_iri))
-
-        for (s, p, o), ch_type in changes:
-            if not isinstance(s, URIRef):
-                continue
-
-            if (p, RDF.type, OWL.AnnotationProperty) in self.store.get_context(self.meta_graph_iri):
-                continue
-
-            if s not in entity_to_change:
-                continue
-
-            ch_iri = entity_to_change[s]
-            axiom_iri = make_axiom_iri(self.base, ontology_name)
-
-            ocg.add((axiom_iri, RDF.type, OWL.Axiom))
-            ocg.add((axiom_iri, OWL.annotatedSource, s))
-            ocg.add((axiom_iri, OWL.annotatedProperty, p))
-            ocg.add((axiom_iri, OWL.annotatedTarget, o))
-            ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
-            ocg.add((axiom_iri, MEMENTO.hasOntologyState, new_state_iri))
-
-            new_state_graph.add((axiom_iri, RDF.type, OWL.Axiom))
-            new_state_graph.add((axiom_iri, OWL.annotatedSource, s))
-            new_state_graph.add((axiom_iri, OWL.annotatedProperty, p))
-            new_state_graph.add((axiom_iri, OWL.annotatedTarget, o))
-            new_state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
-            new_state_graph.add((axiom_iri, MEMENTO.hasOntologyState, new_state_iri))
-
-        for ent, ch_iri in entity_to_change.items():
             new_state_graph.add((ent, MEMENTO.hasOntologyStateChange, ch_iri))
 
-        self.store.persist()
-        return new_state_iri
+        for ent, triples in changes_by_entity.items():
+            ch_iri = entity_to_change[ent]
+
+            for (s, p, o), _ch_type in triples:
+                if (p, RDF.type, OWL.AnnotationProperty) in self.store.get_context(self.meta_graph_iri):
+                    continue
+
+                axiom_iri = get_or_create_axiom(ocg, self.base, ontology_name, s, p, o)
+                ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
+                ocg.add((axiom_iri, MEMENTO.hasOntologyState, new_state_iri))
 
     # ================================================================
     # GET_ONTOLOGY_STATE_DIFF 
@@ -1077,19 +1051,24 @@ class MementoSM:
         # -------------------------
         # ADD (target - current)
         # -------------------------
-        for (s,p,o) in pure_target - pure_current:
-            if p == RDF.type and o == OWL.Class:
-                ch = DYNDIFF.addC
-            elif p == RDF.type and o in (
-                OWL.ObjectProperty,
-                OWL.DatatypeProperty,
-                OWL.AnnotationProperty
-            ):
-                ch = DYNDIFF.addP
-            else:
-                ch = DYNDIFF.addI
+        for (s,p,o) in pure_target:
+            if (s,p,o) not in pure_current:
+                if p == RDF.type and o == OWL.Class:
+                    ch = DYNDIFF.addC
+                elif p == RDF.type and o in (
+                    OWL.ObjectProperty,
+                    OWL.DatatypeProperty,
+                    OWL.AnnotationProperty
+                ):
+                    ch = DYNDIFF.addP
+                else:
+                    ch = DYNDIFF.addI
 
-            delta.append(((s,p,o), ch))
+                delta.append(((s,p,o), ch))
+
+        for (s, p, o) in pure_target:
+            if p == RDF.type and o == OWL.Class:
+                delta.append(((s, RDF.type, OWL.Class), DYNDIFF.addC))
 
         if version is None:
             version = f"revert_to_{target_state}"
