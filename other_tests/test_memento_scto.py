@@ -148,7 +148,6 @@ def invert_change_type(ch_type):
     if local.endswith("delI"): return DYNDIFF.addI
     return ch_type
 
-# invertiamo SOLO le triple della classe target
 changes_s2 = [(t, invert_change_type(tp)) for (t, tp) in changes_s1_one_class]
 
 s2 = m.create_ontology_state(
@@ -162,6 +161,8 @@ s2 = m.create_ontology_state(
 )
 
 export_full_state(m, ONTO, "s2", OUT_S2)
+
+print("\n=== CHECK subclassOf time frame ===")
 
 # =======================
 # 4) S3 — REVERT
@@ -185,4 +186,3 @@ print("\n=== DIFF s2 → s1 ===")
 added, removed = m.get_ontology_state_diff(ONTO, "s2", "s1")
 OUT_DIFF = BASE_OUT / "SCTO_delta_s2_s1.ttl"
 export_diff_as_rdf(added, removed, OUT_DIFF)
-
