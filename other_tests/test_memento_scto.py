@@ -4,7 +4,7 @@ from memento import MementoSM, DYNDIFF
 from changes_s1_converted import changes_s1
 from pathlib import Path
 
-MEMENTO = Namespace("http://example.org/memento#")
+MEMENTO = Namespace("http://www.dmi.unict.memento/ontology#")
 
 def export_diff_as_rdf(added, removed, out_path):
     g = Graph()
@@ -12,17 +12,22 @@ def export_diff_as_rdf(added, removed, out_path):
 
     def is_valid_content(triple):
         s, p, o = triple
-        if p == RDF.type and o == OWL.Class:
-            return True
-        if p in (RDFS.subClassOf, RDFS.label, RDFS.comment):
-            return True
-        return False
+
+        if str(p).startswith(str(MEMENTO)):
+            return False
+        
+        if "memento/change" in str(s):
+            return False
+
+        return True
 
     def add_change(triple, change_type, kind):
+
         if not is_valid_content(triple):
             return
+
         if change_type is None:
-            return
+            change_type = MEMENTO.AnyChangeAction
 
         s, p, o = triple
         bn = BNode()
@@ -182,7 +187,8 @@ export_full_state(m, ONTO, "s3", OUT_S3)
 # 5) DIFF 
 # =======================
 
-print("\n=== DIFF s2 → s1 ===")
-added, removed = m.get_ontology_state_diff(ONTO, "s2", "s1")
-OUT_DIFF = BASE_OUT / "SCTO_delta_s2_s1.ttl"
+print("\n=== DIFF s1 → s2 ===")
+added, removed = m.get_ontology_state_diff(ONTO, "s1", "s2")
+OUT_DIFF = BASE_OUT / "SCTO_diff_s1_s2.ttl"
 export_diff_as_rdf(added, removed, OUT_DIFF)
+
