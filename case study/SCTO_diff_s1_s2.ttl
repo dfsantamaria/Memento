@@ -1,0 +1,23 @@
+@prefix memento: <http://www.dmi.unict.memento/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+[] a memento:Removal ;
+    memento:changeType memento:DelChangeAction ;
+    memento:object "time frame"@en ;
+    memento:predicate rdfs:label ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
+[] a memento:Removal ;
+    memento:changeType memento:DelChangeAction ;
+    memento:object <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> ;
+    memento:predicate rdfs:subClassOf ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
+[] a memento:Removal ;
+    memento:changeType memento:DelChangeAction ;
+    memento:object owl:Class ;
+    memento:predicate rdf:type ;
+    memento:subject <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> .
+
