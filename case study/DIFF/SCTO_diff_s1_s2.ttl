@@ -1,0 +1,39 @@
+@prefix memento: <http://www.dmi.unict.memento/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/memento/axiom/SCTO/56cca42620b84a5da4988de88cdf794f> a owl:Axiom ;
+    memento:hasOntologyState <http://example.org/memento/state/SCTO/s2> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-01T15:57:45Z-s2-0001> ;
+    owl:annotatedProperty rdf:type ;
+    owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    owl:annotatedTarget owl:Class .
+
+<http://example.org/memento/axiom/SCTO/e81a05fa6d574680abfaeeb350db4607> a owl:Axiom ;
+    memento:hasOntologyState <http://example.org/memento/state/SCTO/s2> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-01T15:57:45Z-s2-0001> ;
+    owl:annotatedProperty rdfs:label ;
+    owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    owl:annotatedTarget "time frame"@en .
+
+<http://example.org/memento/axiom/SCTO/edc70e1dc5214058a9d5a35d915448c6> a owl:Axiom ;
+    memento:hasOntologyState <http://example.org/memento/state/SCTO/s2> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-01T15:57:45Z-s2-0001> ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    owl:annotatedTarget <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
+
+<https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-01T15:57:45Z-s2-0001> .
+
+<http://example.org/memento/change/SCTO/SCTO-2026-03-01T15:57:45Z-s2-0001> a memento:DelChangeAction,
+        memento:OntologyStateChange,
+        <http://www.list.lu/change-ontology/BasicChange>,
+        <http://www.list.lu/change-ontology/delC>,
+        prov:Entity ;
+    memento:hasOntologyState <http://example.org/memento/state/SCTO/s2> ;
+    prov:startedAtTime "2026-03-01T15:57:45+00:00"^^xsd:dateTime ;
+    prov:wasGeneratedBy <http://example.org/memento/agent/Shaker_El-Sappagh> .
+
