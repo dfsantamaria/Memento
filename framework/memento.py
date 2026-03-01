@@ -416,10 +416,10 @@ class MementoSM:
                 continue
             if p == OWL.imports:
                 continue
-            if p not in ANNOTATION_PROPS:
+            if p not in ANNOTATION_PROPS or p == RDFS.comment:
                 filtered.append((s, p, o))
 
-            if p not in (RDFS.comment,):
+            if p is not None:
                 if p == RDF.type and o == OWL.NamedIndividual:
                     if (
                         (s, RDF.type, OWL.Class) in g_in or
@@ -462,7 +462,7 @@ class MementoSM:
         for (s, p, o) in filtered:
             if is_system_triple(s, p, o, self.base):
                 continue
-            if p in ANNOTATION_PROPS:
+            if p in ANNOTATION_PROPS and p != RDFS.comment:
                 continue
 
             if not (
@@ -515,7 +515,9 @@ class MementoSM:
                 OWL.equivalentProperty,
                 RDFS.subPropertyOf,
                 RDFS.domain,
-                RDFS.range
+                RDFS.range,
+                RDFS.label,          
+                RDFS.comment         
             ):
                 continue
 
@@ -1171,4 +1173,5 @@ class MementoSM:
 
         self.store.remove_context(self._state_graph_iri(ontology_name, state_name))
         self.store.persist()
-        return True
+        return True                                                                                                                                                              
+
