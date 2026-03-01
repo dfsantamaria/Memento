@@ -5,44 +5,64 @@ from changes_s1_converted import changes_s1
 from pathlib import Path
 
 MEMENTO = Namespace("http://www.dmi.unict.memento/ontology#")
+PROV = Namespace("http://www.w3.org/ns/prov#")
 
-def export_diff_as_rdf(added, removed, out_path):
+def export_diff_as_rdf(m, ontology_name, added, removed, out_path):
+
     g = Graph()
     g.bind("memento", MEMENTO)
+    g.bind("owl", OWL)
+    g.bind("prov", PROV)
 
-    def is_valid_content(triple):
-        s, p, o = triple
+    ocg = m.store.get_context(m._ocg_iri(ontology_name))
 
-        if str(p).startswith(str(MEMENTO)):
-            return False
-        
-        if "memento/change" in str(s):
-            return False
+    changes_to_export = set()
 
-        return True
+    target_state_iri = m._state_iri(ontology_name, "s2")
 
-    def add_change(triple, change_type, kind):
+    def collect_changes(delta):
 
-        if not is_valid_content(triple):
-            return
+        for (s, p, o), ch_type in delta:
 
-        if change_type is None:
-            change_type = MEMENTO.AnyChangeAction
+            for ax in ocg.subjects(OWL.annotatedSource, s):
 
-        s, p, o = triple
-        bn = BNode()
+                if (ax, OWL.annotatedProperty, p) not in ocg:
+                    continue
+                if (ax, OWL.annotatedTarget, o) not in ocg:
+                    continue
 
-        g.add((bn, RDF.type, kind))
-        g.add((bn, MEMENTO.subject, s))
-        g.add((bn, MEMENTO.predicate, p))
-        g.add((bn, MEMENTO.object, o))
-        g.add((bn, MEMENTO.changeType, change_type))
+                for ch in ocg.objects(ax, MEMENTO.hasOntologyStateChange):
 
-    for triple, ch_type in added:
-        add_change(triple, ch_type, MEMENTO.Addition)
+                    if (ch, MEMENTO.hasOntologyState, target_state_iri) in ocg:
+                        changes_to_export.add(ch)
 
-    for triple, ch_type in removed:
-        add_change(triple, ch_type, MEMENTO.Removal)
+    collect_changes(added)
+    collect_changes(removed)
+
+    for ch in changes_to_export:
+
+        for (s,p,o) in ocg.triples((ch, None, None)):
+            if p == MEMENTO.hasOntologyState and o != target_state_iri:
+                continue
+            g.add((s,p,o))
+
+        for ax in ocg.subjects(MEMENTO.hasOntologyStateChange, ch):
+
+            for (s1,p1,o1) in ocg.triples((ax, None, None)):
+
+                if p1 == MEMENTO.hasOntologyState and o1 != target_state_iri:
+                    continue
+
+                if p1 == MEMENTO.hasOntologyStateChange and o1 != ch:
+                    continue
+
+                g.add((s1,p1,o1))
+
+            g.add((ax, MEMENTO.hasOntologyStateChange, ch))
+
+            s = next(ocg.objects(ax, OWL.annotatedSource), None)
+            if s:
+                g.add((s, MEMENTO.hasOntologyStateChange, ch))
 
     g.serialize(out_path, format="turtle")
 
@@ -190,5 +210,4 @@ export_full_state(m, ONTO, "s3", OUT_S3)
 print("\n=== DIFF s1 → s2 ===")
 added, removed = m.get_ontology_state_diff(ONTO, "s1", "s2")
 OUT_DIFF = BASE_OUT / "SCTO_diff_s1_s2.ttl"
-export_diff_as_rdf(added, removed, OUT_DIFF)
-
+export_diff_as_rdf(m, ONTO, added, removed, OUT_DIFF)
