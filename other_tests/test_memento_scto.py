@@ -7,68 +7,93 @@ from pathlib import Path
 MEMENTO = Namespace("http://www.dmi.unict.memento/ontology#")
 PROV = Namespace("http://www.w3.org/ns/prov#")
 
-def export_diff_as_rdf(m, ontology_name, added, removed, out_path):
+from rdflib import URIRef, RDF, RDFS, OWL, Graph
+
+def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=True):
 
     g = Graph()
     g.bind("memento", MEMENTO)
     g.bind("owl", OWL)
+    g.bind("rdfs", RDFS)
     g.bind("prov", PROV)
 
     ocg = m.store.get_context(m._ocg_iri(ontology_name))
 
+    target_state = "s2"
+    target_state_iri = m._state_iri(ontology_name, target_state)
+    g_s2 = m.get_ontology_state(ontology_name, target_state)
+
     changes_to_export = set()
+    touched_entities = set()
 
-    target_state_iri = m._state_iri(ontology_name, "s2")
-
-    def collect_changes(delta):
-
-        for (s, p, o), ch_type in delta:
-
+    def collect(delta):
+        for (s, p, o), _ in delta:
             for ax in ocg.subjects(OWL.annotatedSource, s):
-
                 if (ax, OWL.annotatedProperty, p) not in ocg:
                     continue
                 if (ax, OWL.annotatedTarget, o) not in ocg:
                     continue
-
                 for ch in ocg.objects(ax, MEMENTO.hasOntologyStateChange):
-
                     if (ch, MEMENTO.hasOntologyState, target_state_iri) in ocg:
                         changes_to_export.add(ch)
 
-    collect_changes(added)
-    collect_changes(removed)
+    collect(added)
+    collect(removed)
 
     for ch in changes_to_export:
-
-        for (s,p,o) in ocg.triples((ch, None, None)):
-            if p == MEMENTO.hasOntologyState and o != target_state_iri:
-                continue
-            g.add((s,p,o))
-
         for ax in ocg.subjects(MEMENTO.hasOntologyStateChange, ch):
 
-            for (s1,p1,o1) in ocg.triples((ax, None, None)):
+            ap = next(ocg.objects(ax, OWL.annotatedProperty), None)
 
-                if p1 == MEMENTO.hasOntologyState and o1 != target_state_iri:
-                    continue
+            if ap in (RDFS.label, RDFS.comment):
+                continue
 
-                if p1 == MEMENTO.hasOntologyStateChange and o1 != ch:
-                    continue
+            if ap == RDFS.subClassOf:
+                continue
 
-                g.add((s1,p1,o1))
+            s_ent = next(ocg.objects(ax, OWL.annotatedSource), None)
+            o_tgt = next(ocg.objects(ax, OWL.annotatedTarget), None)
+
+            if s_ent is None or o_tgt is None:
+                continue
+
+            touched_entities.add(s_ent)
+
+            g.add((ax, RDF.type, OWL.Axiom))
+            g.add((ax, OWL.annotatedSource, s_ent))
+            g.add((ax, OWL.annotatedProperty, ap))
+            g.add((ax, OWL.annotatedTarget, o_tgt))
 
             g.add((ax, MEMENTO.hasOntologyStateChange, ch))
+            g.add((s_ent, MEMENTO.hasOntologyStateChange, ch))
 
-            s = next(ocg.objects(ax, OWL.annotatedSource), None)
-            if s:
-                g.add((s, MEMENTO.hasOntologyStateChange, ch))
+    TO_COPY_TYPES = {
+        OWL.Class,
+        OWL.ObjectProperty,
+        OWL.DatatypeProperty,
+        OWL.AnnotationProperty,
+        OWL.NamedIndividual
+    }
+
+    for ent in touched_entities:
+        for t in g_s2.objects(ent, RDF.type):
+            if t in TO_COPY_TYPES:
+                g.add((ent, RDF.type, t))
+
+        if copy_labels:
+            for lab in g_s2.objects(ent, RDFS.label):
+                g.add((ent, RDFS.label, lab))
+
+    for ch in changes_to_export:
+        for t in ocg.objects(ch, RDF.type):
+            g.add((ch, RDF.type, t))
 
     g.serialize(out_path, format="turtle")
 
 # =======================
 # CONFIGURATION
 # =======================
+
 ONTO = "SCTO"
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -83,9 +108,11 @@ OUT_S1 = BASE_OUT / "SCTO_state1.ttl"
 OUT_S2 = BASE_OUT / "SCTO_state2_remove.ttl"
 OUT_S3 = BASE_OUT / "SCTO_state3_revert.ttl"
 OUT_DIFF = BASE_OUT / "SCTO_delta_s0_s1.ttl"
+
 # =======================
 # EXPORT FUNCTION
 # =======================
+
 def export_full_state(m, ontology_name, state_name, out_path):
     cg = ConjunctiveGraph()
     ctx = m.store.get_context(m._state_graph_iri(ontology_name, state_name))
@@ -96,11 +123,13 @@ def export_full_state(m, ontology_name, state_name, out_path):
 # =======================
 # INIT
 # =======================
+
 m = MementoSM()
 
 # =======================
 # 1) S1 — SCTO 1.0
 # =======================
+
 print("\n=== s0 CREATION ===")
 
 s0 = m.create_ontology(
@@ -116,6 +145,7 @@ export_full_state(m, ONTO, "s0", OUT_S0)
 # =======================
 # 2) S1 — SCTO 2.0 
 # =======================
+
 def normalize_changes(changes):
     out = []
     for (s, p, o), op in changes:
@@ -163,6 +193,7 @@ export_full_state(m, ONTO, "s1", OUT_S1)
 # =======================
 # 3) S2 — REMOVE
 # =======================
+
 def invert_change_type(ch_type):
     local = str(ch_type)
     if local.endswith("addC"): return DYNDIFF.delC
@@ -211,3 +242,11 @@ print("\n=== DIFF s1 → s2 ===")
 added, removed = m.get_ontology_state_diff(ONTO, "s1", "s2")
 OUT_DIFF = BASE_OUT / "SCTO_diff_s1_s2.ttl"
 export_diff_as_rdf(m, ONTO, added, removed, OUT_DIFF)
+
+print("\n=== CHECK RESTRICTIONS ANNOTATIONS ===")
+
+g = m.get_ontology_state(ONTO, "s0")
+
+for ax in g.subjects(RDF.type, OWL.Axiom):
+    if (ax, OWL.annotatedProperty, RDFS.subClassOf) in g:
+        print("Restriction axiom:", ax)
