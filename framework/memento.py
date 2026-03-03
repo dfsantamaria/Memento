@@ -457,8 +457,6 @@ class MementoSM:
         for (s, p, o) in filtered:
             if is_system_triple(s, p, o, self.base):
                 continue
-            if p in ANNOTATION_PROPS:
-                continue
 
             if not (
                 (s, RDF.type, OWL.Class) in g_in or
@@ -510,8 +508,9 @@ class MementoSM:
                 OWL.equivalentProperty,
                 RDFS.subPropertyOf,
                 RDFS.domain,
-                RDFS.range
-            ):
+                RDFS.range,
+                OWL.disjointWith 
+            ) and not (p == RDF.type and (o, RDF.type, OWL.Class) in g_in):
                 continue
 
             if isinstance(o, BNode):
@@ -1185,4 +1184,3 @@ class MementoSM:
         self.store.persist()
         return True                                                                      
                                                                                                                                                                                                                                                                                             
-
