@@ -411,27 +411,22 @@ class MementoSM:
         }
 
         filtered = []
+
         for (s, p, o) in set(g_in):
+
             if p == RDF.type and o == OWL.Ontology:
                 continue
+
             if p == OWL.imports:
                 continue
-            if p not in ANNOTATION_PROPS or p == RDFS.comment:
+
+            state_graph.add((s, p, o))
+
+            if p not in ANNOTATION_PROPS:
                 filtered.append((s, p, o))
 
-            if p is not None:
-                if p == RDF.type and o == OWL.NamedIndividual:
-                    if (
-                        (s, RDF.type, OWL.Class) in g_in or
-                        (s, RDF.type, OWL.ObjectProperty) in g_in or
-                        (s, RDF.type, OWL.DatatypeProperty) in g_in
-                    ):
-                        continue
-
-                state_graph.add((s, p, o))
-
-                if isinstance(o, BNode):
-                    copy_bnode_closure(g_in, state_graph, o)
+            if isinstance(o, BNode):
+                copy_bnode_closure(g_in, state_graph, o)
 
         ts = iso_timestamp()
         ts_lit = Literal(ts, datatype=XSD.dateTime)
@@ -462,7 +457,7 @@ class MementoSM:
         for (s, p, o) in filtered:
             if is_system_triple(s, p, o, self.base):
                 continue
-            if p in ANNOTATION_PROPS and p != RDFS.comment:
+            if p in ANNOTATION_PROPS:
                 continue
 
             if not (
@@ -515,20 +510,31 @@ class MementoSM:
                 OWL.equivalentProperty,
                 RDFS.subPropertyOf,
                 RDFS.domain,
-                RDFS.range,
-                RDFS.label,          
-                RDFS.comment         
+                RDFS.range
             ):
                 continue
 
-            axiom_iri = make_axiom_iri(self.base, ontology_name)
+            if isinstance(o, BNode):
+                copy_bnode_closure(g_in, state_graph, o)
 
-            ocg.add((axiom_iri, RDF.type, OWL.Axiom))
-            ocg.add((axiom_iri, OWL.annotatedSource, s))
-            ocg.add((axiom_iri, OWL.annotatedProperty, p))
-            ocg.add((axiom_iri, OWL.annotatedTarget, o))
+            axiom_iri = get_or_create_axiom(
+                ocg,
+                self.base,
+                ontology_name,
+                s,
+                p,
+                o
+            )
 
             ocg.add((axiom_iri, MEMENTO.hasOntologyState, state_iri))
+
+            state_graph.add((axiom_iri, RDF.type, OWL.Axiom))
+            state_graph.add((axiom_iri, OWL.annotatedSource, s))
+            state_graph.add((axiom_iri, OWL.annotatedProperty, p))
+            state_graph.add((axiom_iri, OWL.annotatedTarget, o))
+            state_graph.add((axiom_iri, MEMENTO.hasOntologyState, state_iri))
+            if s in entity_to_change:
+                state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
 
             if s in entity_to_change:
                 ocg.add((
@@ -709,16 +715,20 @@ class MementoSM:
 
             for (s, p, o) in set(prev_ctx):
 
-                if p in (OWL.annotatedSource, OWL.annotatedProperty, OWL.annotatedTarget):
+                if isinstance(s, URIRef) and "/axiom/" in str(s):
+                    continue
+
+                if p in (
+                    OWL.annotatedSource,
+                    OWL.annotatedProperty,
+                    OWL.annotatedTarget
+                ):
                     continue
 
                 if p == RDF.type and o == OWL.Axiom:
                     continue
 
                 new_state_graph.add((s, p, o))
-
-                if isinstance(o, BNode):
-                    copy_bnode_closure(prev_ctx, new_state_graph, o)
 
         # --------------------------
         # COPY hasOntologyStateChange FROM PREVIOUS STATE
@@ -1173,5 +1183,6 @@ class MementoSM:
 
         self.store.remove_context(self._state_graph_iri(ontology_name, state_name))
         self.store.persist()
-        return True                                                                                                                                                              
+        return True                                                                      
+                                                                                                                                                                                                                                                                                            
 
