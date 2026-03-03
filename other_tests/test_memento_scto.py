@@ -242,11 +242,3 @@ print("\n=== DIFF s1 → s2 ===")
 added, removed = m.get_ontology_state_diff(ONTO, "s1", "s2")
 OUT_DIFF = BASE_OUT / "SCTO_diff_s1_s2.ttl"
 export_diff_as_rdf(m, ONTO, added, removed, OUT_DIFF)
-
-print("\n=== CHECK RESTRICTIONS ANNOTATIONS ===")
-
-g = m.get_ontology_state(ONTO, "s0")
-
-for ax in g.subjects(RDF.type, OWL.Axiom):
-    if (ax, OWL.annotatedProperty, RDFS.subClassOf) in g:
-        print("Restriction axiom:", ax)
