@@ -88,8 +88,8 @@ def make_state_graph_iri(base_uri: str, ontology_name: str, state_name: str) -> 
 # CREATE OWL:AXIOM IRI (NO BNODE)
 # ==========================
 
-def make_axiom_iri(base_uri: str, ontology_name: str) -> URIRef:
-    return URIRef(f"{base_uri}/axiom/{ontology_name}/{uuid4().hex}")
+def make_axiom_iri(base_uri: str, ontology_name: str):
+    return BNode()
 
 # ==========================
 # CREATE FACTORY X CHANGE IRI
@@ -201,6 +201,41 @@ def copy_bnode_closure(src_g: Graph, dst_g: Graph, node):
                 dst_g.add((s, p, o))
             if isinstance(o, BNode) and o not in seen:
                 stack.append(o)
+
+def rdf_list_items(g: Graph, head):
+    items = []
+    while head and head != RDF.nil:
+        first = next(g.objects(head, RDF.first), None)
+        rest  = next(g.objects(head, RDF.rest), None)
+        if first is None:
+            break
+        items.append(first)
+        head = rest
+    return items
+
+def expand_all_disjoint_classes(g: Graph):
+    """
+    Convert owl:AllDisjointClasses into pairwise owl:disjointWith triples.
+    """
+    pairs = []
+
+    for adc in g.subjects(RDF.type, OWL.AllDisjointClasses):
+
+        members = next(g.objects(adc, OWL.members), None)
+        if members is None:
+            continue
+
+        items = rdf_list_items(g, members)
+
+        for i in range(len(items)):
+            for j in range(i + 1, len(items)):
+                a = items[i]
+                b = items[j]
+
+                if isinstance(a, URIRef) and isinstance(b, URIRef):
+                    pairs.append((a, OWL.disjointWith, b))
+
+    return pairs
 
 # ================================================================
 # MEMENTO-SM — MODULE 2
@@ -377,6 +412,13 @@ class MementoSM:
                 g_in.parse(graph_or_path, format=fmt)
             else:
                 g_in.parse(graph_or_path)
+
+        # ------------------------------------
+        # EXPAND owl:AllDisjointClasses
+        # ------------------------------------
+
+        for (s,p,o) in expand_all_disjoint_classes(g_in):
+            g_in.add((s,p,o))
 
         # GRAPHS
         state_iri = self._state_iri(ontology_name, state_name)
@@ -706,28 +748,14 @@ class MementoSM:
         declare_version_dataprops(new_state_graph)
 
         # --------------------------
-        # COPY PREVIOUS STATE
+        # COPY PREVIOUS STATE 
         # --------------------------
 
         if prev_state_name:
             prev_ctx = self.get_ontology_state(ontology_name, prev_state_name)
 
-            for (s, p, o) in set(prev_ctx):
-
-                if isinstance(s, URIRef) and "/axiom/" in str(s):
-                    continue
-
-                if p in (
-                    OWL.annotatedSource,
-                    OWL.annotatedProperty,
-                    OWL.annotatedTarget
-                ):
-                    continue
-
-                if p == RDF.type and o == OWL.Axiom:
-                    continue
-
-                new_state_graph.add((s, p, o))
+            for triple in prev_ctx:
+                new_state_graph.add(triple)
 
         # --------------------------
         # COPY hasOntologyStateChange FROM PREVIOUS STATE
