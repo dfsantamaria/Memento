@@ -55,6 +55,28 @@
     
 
 
+    <!-- http://www.dmi.unict.memento/ontology#hasAncestorState -->
+
+    <owl:ObjectProperty rdf:about="http://www.dmi.unict.memento/ontology#hasAncestorState">
+        <owl:inverseOf rdf:resource="http://www.dmi.unict.memento/ontology#hasSuccessorState"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+        <rdfs:range rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.dmi.unict.memento/ontology#hasNextState -->
+
+    <owl:ObjectProperty rdf:about="http://www.dmi.unict.memento/ontology#hasNextState">
+        <rdfs:subPropertyOf rdf:resource="http://www.dmi.unict.memento/ontology#hasSuccessorState"/>
+        <owl:inverseOf rdf:resource="http://www.dmi.unict.memento/ontology#hasPreviousState"/>
+        <rdfs:domain rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+        <rdfs:range rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.dmi.unict.memento/ontology#hasOntologyState -->
 
     <owl:ObjectProperty rdf:about="http://www.dmi.unict.memento/ontology#hasOntologyState">
@@ -68,6 +90,26 @@
     <owl:ObjectProperty rdf:about="http://www.dmi.unict.memento/ontology#hasOntologyStateVersion">
         <rdfs:domain rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
         <rdfs:range rdf:resource="http://www.dmi.unict.memento/ontology#OntologyStateVersion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.dmi.unict.memento/ontology#hasPreviousState -->
+
+    <owl:ObjectProperty rdf:about="http://www.dmi.unict.memento/ontology#hasPreviousState">
+        <rdfs:subPropertyOf rdf:resource="http://www.dmi.unict.memento/ontology#hasAncestorState"/>
+        <rdfs:domain rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+        <rdfs:range rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.dmi.unict.memento/ontology#hasSuccessorState -->
+
+    <owl:ObjectProperty rdf:about="http://www.dmi.unict.memento/ontology#hasSuccessorState">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
+        <rdfs:range rdf:resource="http://www.dmi.unict.memento/ontology#OntologyState"/>
     </owl:ObjectProperty>
     
 
