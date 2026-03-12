@@ -120,6 +120,7 @@ def declare_imports_in_state_graph(state_graph: Graph, ontology_iri: URIRef):
     state_graph.add((ontology_iri, OWL.imports, IMPORT_PROVO))
     state_graph.add((MEMENTO.hasOntologyState, RDF.type, OWL.AnnotationProperty))
     state_graph.add((MEMENTO.hasOntologyStateChange, RDF.type, OWL.AnnotationProperty))
+    state_graph.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
 
 def declare_version_dataprops(g: Graph):
     for dp in [
@@ -351,6 +352,8 @@ class MementoSM:
         except Exception as e:
             print("Error loading ontologies from GitHub:", e)
 
+        meta.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
+
     # ================================================================
     # UTILITY
     # ================================================================
@@ -457,13 +460,20 @@ class MementoSM:
         ]:
             state_graph.bind(pfx, ns)
 
+        state_graph.bind("skos", Namespace("http://www.w3.org/2004/02/skos/core#"))
+
         declare_version_dataprops(state_graph)
 
         ANNOTATION_PROPS = {
-            RDFS.comment, RDFS.label,
-            OWL.versionInfo, OWL.priorVersion,
-            OWL.backwardCompatibleWith, OWL.incompatibleWith
+            RDFS.comment,
+            RDFS.label,
+            OWL.versionInfo,
+            OWL.priorVersion,
+            OWL.backwardCompatibleWith,
+            OWL.incompatibleWith
         }
+
+        ANNOTATION_PROPS |= set(g_in.subjects(RDF.type, OWL.AnnotationProperty))
 
         filtered = []
 
@@ -472,10 +482,11 @@ class MementoSM:
             if p == RDF.type and o == OWL.Ontology:
                 continue
 
-            if p == OWL.imports:
-                continue
-
             state_graph.add((s, p, o))
+
+            if (s, RDF.type, OWL.Class) in g_in:
+                for lab in g_in.objects(s, RDFS.label):
+                    state_graph.add((s, RDFS.label, lab))
 
             if p not in ANNOTATION_PROPS:
                 filtered.append((s, p, o))
@@ -510,6 +521,9 @@ class MementoSM:
         ent_seq = 0
 
         for (s, p, o) in filtered:
+
+            if p == RDFS.label:
+                continue
 
             if p in (
                 RDFS.label,
@@ -598,6 +612,9 @@ class MementoSM:
             # ------------------------------------
             # REIFY INSTANCE ASSERTIONS
             # ------------------------------------
+
+            if p in (RDFS.label, RDFS.comment, OWL.versionInfo):
+                continue
 
             if p == RDF.type and isinstance(s, URIRef) and isinstance(o, URIRef) and o != OWL.NamedIndividual:
 
@@ -749,11 +766,12 @@ class MementoSM:
     def create_ontology_state(
         self,
         ontology_name: str,
-        changes: list,         
-        state_name: str,
-        author: str,
+        changes: list,
+        previous_state=None,
+        state_name: str = None,
+        author: str = None,
         version="1.0",
-        prev_state_name=None, 
+        prev_state_name=None,
         bulk=False
     ):
         """
@@ -784,6 +802,9 @@ class MementoSM:
 
         ts = iso_timestamp()
         ts_literal = Literal(ts, datatype=XSD.dateTime)
+
+        if previous_state is not None:
+            prev_state_name = previous_state
 
         # --------------------------
         # FILTER VALID CHANGES 
@@ -828,8 +849,17 @@ class MementoSM:
         if prev_state_name:
             prev_ctx = self.get_ontology_state(ontology_name, prev_state_name)
 
-            for triple in prev_ctx:
-                new_state_graph.add(triple)
+            for (s,p,o) in prev_ctx:
+
+                if (s, RDF.type, OWL.Axiom) in prev_ctx:
+                    src = list(prev_ctx.objects(s, OWL.annotatedSource))
+                    prop = list(prev_ctx.objects(s, OWL.annotatedProperty))
+                    tgt = list(prev_ctx.objects(s, OWL.annotatedTarget))
+
+                    if not (src and prop and tgt):
+                        continue
+
+                new_state_graph.add((s,p,o))
 
         # --------------------------
         # COPY hasOntologyStateChange FROM PREVIOUS STATE
@@ -875,6 +905,10 @@ class MementoSM:
         meta.add((new_state_iri, PROV.wasGeneratedBy, agent_iri))
         meta.add((new_state_iri, MEMENTO.hasOntologyStateVersion, version_iri))
 
+        if prev_state_name is not None:
+            prev_state_iri = self._state_iri(ontology_name, prev_state_name)
+            meta.add((new_state_iri, MEMENTO.hasPreviousState, prev_state_iri))
+
         meta.add((version_iri, RDF.type, MEMENTO.OntologyStateVersion))
 
         meta.add((agent_iri, RDF.type, PROV.Agent))
@@ -884,6 +918,10 @@ class MementoSM:
         new_state_graph.add((new_state_iri, PROV.startedAtTime, ts_literal))
         new_state_graph.add((new_state_iri, MEMENTO.hasOntologyStateVersion, version_iri))
         new_state_graph.add((new_state_iri, PROV.wasGeneratedBy, agent_iri))
+
+        if prev_state_name is not None:
+            prev_state_iri = self._state_iri(ontology_name, prev_state_name)
+            new_state_graph.add((new_state_iri, MEMENTO.hasPreviousState, prev_state_iri))
 
         new_state_graph.add((version_iri, RDF.type, MEMENTO.OntologyStateVersion))
 
@@ -948,6 +986,10 @@ class MementoSM:
                     new_state_graph.add((s, RDF.type, OWL.Class))
 
             elif ch_type in (DYNDIFF.addI, DYNDIFF.addP):
+
+                if p in (RDFS.label, RDFS.comment, OWL.versionInfo):
+                    continue
+
                 if (s, p, o) not in new_state_graph:
                     new_state_graph.add((s, p, o))
 
@@ -978,6 +1020,10 @@ class MementoSM:
         entity_change = {} 
 
         for (s, p, o), ch_type in changes:
+
+            if p in (RDFS.label, RDFS.comment, OWL.versionInfo):
+                new_state_graph.add((s, p, o))
+                continue
 
             if not isinstance(s, URIRef):
                 continue
@@ -1268,12 +1314,13 @@ class MementoSM:
                     delta.append((triple, DYNDIFF.addC))
 
         return self.create_ontology_state(
-            ontology_name,
-            delta,
-            new_state_name,
-            author,
+            ontology_name=ontology_name,
+            changes=delta,
+            previous_state=current_state,
+            state_name=new_state_name,
+            author=author,
             version=version,
-            prev_state_name=current_state
+            bulk=False
         )
 
     # ================================================================
