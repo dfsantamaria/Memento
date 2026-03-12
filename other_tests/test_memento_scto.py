@@ -181,10 +181,10 @@ changes_s1_one_class = filter_changes_for_class(
 s1 = m.create_ontology_state(
     ontology_name=ONTO,
     changes=changes_s1_one_class,
+    previous_state="s0",
     state_name="s1",
     author="Shaker_El-Sappagh",
     version="2.0.0",      
-    prev_state_name="s0",
     bulk=False
 )
 
@@ -209,10 +209,10 @@ changes_s2 = [(t, invert_change_type(tp)) for (t, tp) in changes_s1_one_class]
 s2 = m.create_ontology_state(
     ontology_name=ONTO,
     changes=changes_s2,
+    previous_state="s1",
     state_name="s2",
     author="Shaker_El-Sappagh",
     version="2.0.0-remove-one",
-    prev_state_name="s1",
     bulk=False
 )
 
