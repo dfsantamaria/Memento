@@ -4,18 +4,25 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-<http://example.org/memento/axiom/SCTO/a985896e450a4314922d33c0ff30d2f2> a owl:Axiom ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-12T14:11:19Z-s2-0001> ;
+<http://example.org/memento/axiom/SCTO/8110903b4ffc43a099ecbaf7a9912920> a owl:Axiom ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-20T12:35:25Z-s2-0001> ;
     owl:annotatedProperty rdf:type ;
     owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
     owl:annotatedTarget owl:Class .
 
+<http://example.org/memento/axiom/SCTO/ad8296b2b18646268b9b8b9de3abea69> a owl:Axiom ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-20T12:35:25Z-s2-0001> ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    owl:annotatedTarget <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
+
 <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> a owl:Class ;
     rdfs:label "time frame"@en ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-12T14:11:19Z-s2-0001> .
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-03-20T12:35:25Z-s2-0001> .
 
-<http://example.org/memento/change/SCTO/SCTO-2026-03-12T14:11:19Z-s2-0001> a memento:DelChangeAction,
+<http://example.org/memento/change/SCTO/SCTO-2026-03-20T12:35:25Z-s2-0001> a memento:DelChangeAction,
         memento:OntologyStateChange,
         <http://www.list.lu/change-ontology/BasicChange>,
         <http://www.list.lu/change-ontology/delC>,
         prov:Entity .
+
