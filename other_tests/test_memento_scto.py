@@ -1,4 +1,4 @@
-from rdflib import URIRef, Literal, RDF, RDFS, OWL, Graph, Namespace, BNode
+from rdflib import URIRef, Literal, RDF, RDFS, OWL, Graph, Namespace, BNode 
 from rdflib import ConjunctiveGraph
 from memento import MementoSM, DYNDIFF
 from changes_s1_converted import changes_s1
@@ -46,9 +46,6 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
             ap = next(ocg.objects(ax, OWL.annotatedProperty), None)
 
             if ap in (RDFS.label, RDFS.comment):
-                continue
-
-            if ap == RDFS.subClassOf:
                 continue
 
             s_ent = next(ocg.objects(ax, OWL.annotatedSource), None)
