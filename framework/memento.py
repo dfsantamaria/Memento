@@ -484,15 +484,34 @@ class MementoSM:
 
             state_graph.add((s, p, o))
 
-            if (s, RDF.type, OWL.Class) in g_in:
-                for lab in g_in.objects(s, RDFS.label):
-                    state_graph.add((s, RDFS.label, lab))
-
             if p not in ANNOTATION_PROPS:
                 filtered.append((s, p, o))
 
             if isinstance(o, BNode):
                 copy_bnode_closure(g_in, state_graph, o)
+
+        # ------------------------------------
+        # COPY ANNOTATION AXIOMS 
+        # ------------------------------------
+        for ax in g_in.subjects(RDF.type, OWL.Axiom):
+
+            src = list(g_in.objects(ax, OWL.annotatedSource))
+            prop = list(g_in.objects(ax, OWL.annotatedProperty))
+            tgt = list(g_in.objects(ax, OWL.annotatedTarget))
+
+            if not (src and prop and tgt):
+                continue
+
+            ax_state = add_axiom_bnode(state_graph, src[0], prop[0], tgt[0])
+
+            for (a_s, a_p, a_o) in g_in.triples((ax, None, None)):
+                if a_p not in (
+                    RDF.type,
+                    OWL.annotatedSource,
+                    OWL.annotatedProperty,
+                    OWL.annotatedTarget
+                ):
+                    state_graph.add((ax_state, a_p, a_o))
 
         ts = iso_timestamp()
         ts_lit = Literal(ts, datatype=XSD.dateTime)
@@ -521,9 +540,6 @@ class MementoSM:
         ent_seq = 0
 
         for (s, p, o) in filtered:
-
-            if p == RDFS.label:
-                continue
 
             if p in (
                 RDFS.label,
@@ -637,13 +653,8 @@ class MementoSM:
             # --------------------------
 
             if p not in (
-                OWL.equivalentClass,
                 RDFS.subClassOf,
-                OWL.equivalentProperty,
-                RDFS.subPropertyOf,
-                RDFS.domain,
-                RDFS.range,
-                OWL.disjointWith 
+                OWL.equivalentClass
             ):
                 continue
 
@@ -830,6 +841,10 @@ class MementoSM:
             states = self.get_ontology_states(ontology_name)
             prev_state_name = states[-1] if states else None
 
+        prev_ctx = None
+        if prev_state_name:
+            prev_ctx = self.get_ontology_state(ontology_name, prev_state_name)
+
         # --------------------------
         # HEADER + IMPORTS
         # --------------------------
@@ -849,7 +864,7 @@ class MementoSM:
         if prev_state_name:
             prev_ctx = self.get_ontology_state(ontology_name, prev_state_name)
 
-            for (s,p,o) in prev_ctx:
+            for (s, p, o) in prev_ctx:
 
                 if (s, RDF.type, OWL.Axiom) in prev_ctx:
                     src = list(prev_ctx.objects(s, OWL.annotatedSource))
@@ -859,7 +874,7 @@ class MementoSM:
                     if not (src and prop and tgt):
                         continue
 
-                new_state_graph.add((s,p,o))
+                new_state_graph.add((s, p, o))
 
         # --------------------------
         # COPY hasOntologyStateChange FROM PREVIOUS STATE
@@ -977,6 +992,9 @@ class MementoSM:
                 ocg.add((iri, MEMENTO.hasOntologyState, new_state_iri))
                 ocg.add((iri, RDF.type, MEMENTO.OntologyStateChange))
 
+        change_seq = 0
+        entity_change = {}
+
         for (s, p, o), ch_type in changes:
             if not isinstance(s, URIRef):
                 continue
@@ -986,15 +1004,14 @@ class MementoSM:
                     new_state_graph.add((s, RDF.type, OWL.Class))
 
             elif ch_type in (DYNDIFF.addI, DYNDIFF.addP):
-
-                if p in (RDFS.label, RDFS.comment, OWL.versionInfo):
-                    continue
-
                 if (s, p, o) not in new_state_graph:
                     new_state_graph.add((s, p, o))
 
             elif ch_type == DYNDIFF.delC:
-                for triple in list(new_state_graph.triples((s, None, None))):
+
+                removed_triples = list(new_state_graph.triples((s, None, None)))
+
+                for triple in removed_triples:
                     _, pred, obj = triple
 
                     if pred in (
@@ -1003,10 +1020,7 @@ class MementoSM:
                         RDFS.label,
                         RDFS.comment,
                         RDFS.isDefinedBy,
-                        RDFS.subClassOf,
-                        OWL.equivalentClass,
                         OWL.versionInfo
-
                     ):
                         continue
 
@@ -1016,14 +1030,17 @@ class MementoSM:
         # DELTA + AXIOMS
         # --------------------------
 
-        change_seq = 0
-        entity_change = {} 
-
         for (s, p, o), ch_type in changes:
 
             if p in (RDFS.label, RDFS.comment, OWL.versionInfo):
-                new_state_graph.add((s, p, o))
-                continue
+                if ch_type not in (DYNDIFF.addI, DYNDIFF.addP):
+                    continue
+
+                if prev_ctx is not None and (s, p, o) in prev_ctx:
+                    continue
+
+                if (s, p, o) not in new_state_graph:
+                    new_state_graph.add((s, p, o))
 
             if not isinstance(s, URIRef):
                 continue
@@ -1298,6 +1315,8 @@ class MementoSM:
 
         current_state_iri = self._state_iri(ontology_name, current_state)
 
+        touched_subjects = {s for (s, _, _) in [t for (t, _) in delta]}
+
         for ch in ocg.subjects(MEMENTO.hasOntologyState, current_state_iri):
 
             if (ch, RDF.type, MEMENTO.DelChangeAction) not in ocg:
@@ -1307,6 +1326,9 @@ class MementoSM:
 
                 ent = next(ocg.objects(ax, OWL.annotatedSource), None)
                 if not isinstance(ent, URIRef):
+                    continue
+
+                if ent not in touched_subjects:
                     continue
 
                 triple = (ent, RDF.type, OWL.Class)
@@ -1338,6 +1360,4 @@ class MementoSM:
 
         self.store.remove_context(self._state_graph_iri(ontology_name, state_name))
         self.store.persist()
-        return True                                                                      
-                                                                                                                                                                                                                                                                                            
-
+        return True                                                                                                                                                                                              
