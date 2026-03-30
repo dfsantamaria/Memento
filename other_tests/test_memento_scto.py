@@ -1,6 +1,6 @@
 from rdflib import URIRef, Literal, RDF, RDFS, OWL, Graph, Namespace, BNode 
 from rdflib import ConjunctiveGraph
-from memento import MementoSM, DYNDIFF
+from memento import MementoSM, DYNDIFF, copy_bnode_closure
 from changes_s1_converted import changes_s1
 from pathlib import Path
 
@@ -8,6 +8,25 @@ MEMENTO = Namespace("http://www.dmi.unict.memento/ontology#")
 PROV = Namespace("http://www.w3.org/ns/prov#")
 
 from rdflib import URIRef, RDF, RDFS, OWL, Graph
+
+def collect_uris_from_bnode_closure(src_g, node):
+    uris = set()
+    stack = [node]
+    seen = set()
+
+    while stack:
+        n = stack.pop()
+        if n in seen:
+            continue
+        seen.add(n)
+
+        for (_, _, o) in src_g.triples((n, None, None)):
+            if isinstance(o, URIRef):
+                uris.add(o)
+            elif isinstance(o, BNode):
+                stack.append(o)
+
+    return uris
 
 def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=True):
 
@@ -56,13 +75,16 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
 
             touched_entities.add(s_ent)
 
-            g.add((ax, RDF.type, OWL.Axiom))
-            g.add((ax, OWL.annotatedSource, s_ent))
-            g.add((ax, OWL.annotatedProperty, ap))
-            g.add((ax, OWL.annotatedTarget, o_tgt))
+            g.add((s_ent, ap, o_tgt))
+
+            for (a_s, a_p, a_o) in ocg.triples((ax, None, None)):
+                g.add((a_s, a_p, a_o))
 
             g.add((ax, MEMENTO.hasOntologyStateChange, ch))
             g.add((s_ent, MEMENTO.hasOntologyStateChange, ch))
+
+            if isinstance(o_tgt, BNode):
+                copy_bnode_closure(g_s2, g, o_tgt)
 
     TO_COPY_TYPES = {
         OWL.Class,
@@ -72,7 +94,20 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
         OWL.NamedIndividual
     }
 
-    for ent in touched_entities:
+    extra_label_entities = set()
+
+    for ax in g.subjects(RDF.type, OWL.Axiom):
+        tgt = next(g.objects(ax, OWL.annotatedTarget), None)
+
+        if isinstance(tgt, URIRef):
+            extra_label_entities.add(tgt)
+
+        elif isinstance(tgt, BNode):
+            extra_label_entities |= collect_uris_from_bnode_closure(g_s2, tgt)
+
+    all_entities_for_labels = touched_entities | extra_label_entities
+
+    for ent in all_entities_for_labels:
         for t in g_s2.objects(ent, RDF.type):
             if t in TO_COPY_TYPES:
                 g.add((ent, RDF.type, t))
@@ -215,7 +250,7 @@ s2 = m.create_ontology_state(
 
 export_full_state(m, ONTO, "s2", OUT_S2)
 
-print("\n=== CHECK subclassOf time frame ===")
+g = m.get_ontology_state(ONTO, "s2")
 
 # =======================
 # 4) S3 — REVERT
@@ -230,6 +265,8 @@ s3 = m.revert_ontology(
 )
 
 export_full_state(m, ONTO, "s3", OUT_S3)
+
+g = m.get_ontology_state(ONTO, "s3")
 
 # =======================
 # 5) DIFF 
