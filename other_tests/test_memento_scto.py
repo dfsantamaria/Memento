@@ -28,6 +28,38 @@ def collect_uris_from_bnode_closure(src_g, node):
 
     return uris
 
+def copy_full_expression(src_g, dst_g, node):
+    stack = [node]
+    seen = set()
+
+    while stack:
+        n = stack.pop()
+        if n in seen:
+            continue
+        seen.add(n)
+
+        if (n, RDF.type, OWL.Restriction) in src_g:
+            dst_g.add((n, RDF.type, OWL.Restriction))
+
+        if (n, OWL.intersectionOf, None) in src_g:
+            dst_g.add((n, RDF.type, OWL.Class))
+
+        for (s, p, o) in src_g.triples((n, None, None)):
+            dst_g.add((s, p, o))
+
+            if p in (OWL.intersectionOf, RDF.first, RDF.rest):
+                if isinstance(o, BNode):
+                    stack.append(o)
+
+            if isinstance(o, BNode):
+                stack.append(o)
+
+        for (s, p, o) in src_g.triples((None, None, n)):
+            dst_g.add((s, p, o))
+
+            if isinstance(s, BNode):
+                stack.append(s)
+
 def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=True):
 
     g = Graph()
@@ -37,88 +69,142 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
     g.bind("prov", PROV)
 
     ocg = m.store.get_context(m._ocg_iri(ontology_name))
+    meta = m.store.get_context(m.meta_graph_iri)
 
-    target_state = "s2"
-    target_state_iri = m._state_iri(ontology_name, target_state)
-    g_s2 = m.get_ontology_state(ontology_name, target_state)
-
-    changes_to_export = set()
-    touched_entities = set()
-
-    def collect(delta):
-        for (s, p, o), _ in delta:
-            for ax in ocg.subjects(OWL.annotatedSource, s):
-                if (ax, OWL.annotatedProperty, p) not in ocg:
-                    continue
-                if (ax, OWL.annotatedTarget, o) not in ocg:
-                    continue
-                for ch in ocg.objects(ax, MEMENTO.hasOntologyStateChange):
-                    if (ch, MEMENTO.hasOntologyState, target_state_iri) in ocg:
-                        changes_to_export.add(ch)
-
-    collect(added)
-    collect(removed)
-
-    for ch in changes_to_export:
-        for ax in ocg.subjects(MEMENTO.hasOntologyStateChange, ch):
-
-            ap = next(ocg.objects(ax, OWL.annotatedProperty), None)
-
-            if ap in (RDFS.label, RDFS.comment):
-                continue
-
-            s_ent = next(ocg.objects(ax, OWL.annotatedSource), None)
-            o_tgt = next(ocg.objects(ax, OWL.annotatedTarget), None)
-
-            if s_ent is None or o_tgt is None:
-                continue
-
-            touched_entities.add(s_ent)
-
-            g.add((s_ent, ap, o_tgt))
-
-            for (a_s, a_p, a_o) in ocg.triples((ax, None, None)):
-                g.add((a_s, a_p, a_o))
-
-            g.add((ax, MEMENTO.hasOntologyStateChange, ch))
-            g.add((s_ent, MEMENTO.hasOntologyStateChange, ch))
-
-            if isinstance(o_tgt, BNode):
-                copy_bnode_closure(g_s2, g, o_tgt)
+    g_s1 = m.get_ontology_state(ontology_name, "s1")
+    g_s2 = m.get_ontology_state(ontology_name, "s2")
 
     TO_COPY_TYPES = {
         OWL.Class,
         OWL.ObjectProperty,
         OWL.DatatypeProperty,
         OWL.AnnotationProperty,
-        OWL.NamedIndividual
+        OWL.NamedIndividual,
+        OWL.Restriction
     }
 
-    extra_label_entities = set()
+    SYSTEM_PREDICATES = {
+        MEMENTO.hasOntologyStateChange,
+        MEMENTO.hasOntologyState,
+        MEMENTO.hasPreviousState,
+        OWL.annotatedSource,
+        OWL.annotatedProperty,
+        OWL.annotatedTarget,
+        OWL.imports,
+    }
 
-    for ax in g.subjects(RDF.type, OWL.Axiom):
-        tgt = next(g.objects(ax, OWL.annotatedTarget), None)
+    ANNOTATION_PREDICATES = {
+        RDFS.label,
+        RDFS.comment,
+        OWL.versionInfo,
+    }
 
-        if isinstance(tgt, URIRef):
-            extra_label_entities.add(tgt)
+    def is_removed_entity(ent):
+        return any(s == ent for ((s, _, _), _) in removed if isinstance(s, URIRef))
 
-        elif isinstance(tgt, BNode):
-            extra_label_entities |= collect_uris_from_bnode_closure(g_s2, tgt)
+    def get_source_graph(ent):
+        return g_s1 if is_removed_entity(ent) else g_s2
 
-    all_entities_for_labels = touched_entities | extra_label_entities
+    def diff_entities():
+        ents = set()
+        for ((s, _, _), _) in added + removed:
+            if isinstance(s, URIRef):
+                ents.add(s)
+        return ents
 
-    for ent in all_entities_for_labels:
-        for t in g_s2.objects(ent, RDF.type):
-            if t in TO_COPY_TYPES:
-                g.add((ent, RDF.type, t))
+    def changes_for_entity(ent):
+        out = set()
+        for ((s, _, _), ch) in added + removed:
+            if s == ent and ch is not None:
+                out.add(ch)
+        return out
+
+    def copy_entity_description(ent, src):
+        """
+        Copies the full OWL description of the changed entity from the proper state.
+        Support URIs are NOT promoted to top-level classes.
+        """
+        support_uris = set()
+
+        for p, o in src.predicate_objects(ent):
+
+            if p in SYSTEM_PREDICATES:
+                continue
+
+            if p in ANNOTATION_PREDICATES and not copy_labels:
+                continue
+
+            if p == RDF.type:
+                g.add((ent, p, o))
+                continue
+
+            g.add((ent, p, o))
+
+            if isinstance(o, BNode):
+                copy_full_expression(src, g, o)
+                support_uris |= collect_uris_from_bnode_closure(src, o)
+
+            elif isinstance(o, URIRef):
+                support_uris.add(o)
 
         if copy_labels:
-            for lab in g_s2.objects(ent, RDFS.label):
-                g.add((ent, RDFS.label, lab))
+            for u in support_uris:
+                if u == ent:
+                    continue
+                for src2 in (g_s1, g_s2):
+                    for lab in src2.objects(u, RDFS.label):
+                        g.add((u, RDFS.label, lab))
 
-    for ch in changes_to_export:
-        for t in ocg.objects(ch, RDF.type):
-            g.add((ch, RDF.type, t))
+    def reify_entity_axioms(ent, src, ch):
+        for p, o in src.predicate_objects(ent):
+
+            if p in SYSTEM_PREDICATES:
+                continue
+
+            if p in ANNOTATION_PREDICATES:
+                continue
+
+            if p == RDF.type and o not in TO_COPY_TYPES:
+                continue
+
+            ax = BNode()
+            g.add((ax, RDF.type, OWL.Axiom))
+            g.add((ax, OWL.annotatedSource, ent))
+            g.add((ax, OWL.annotatedProperty, p))
+            g.add((ax, OWL.annotatedTarget, o))
+            g.add((ax, MEMENTO.hasOntologyStateChange, ch))
+
+    all_diff_entities = diff_entities()
+    used_changes = set()
+
+    for ent in all_diff_entities:
+        src = get_source_graph(ent)
+        copy_entity_description(ent, src)
+
+        for ch in changes_for_entity(ent):
+            g.add((ent, MEMENTO.hasOntologyStateChange, ch))
+            used_changes.add(ch)
+
+    for ent in all_diff_entities:
+        src = get_source_graph(ent)
+        for ch in changes_for_entity(ent):
+            reify_entity_axioms(ent, src, ch)
+
+    for ch in used_changes:
+        for t in ocg.triples((ch, None, None)):
+            g.add(t)
+
+        for st in ocg.objects(ch, MEMENTO.hasOntologyState):
+            for t in meta.triples((st, None, None)):
+                g.add(t)
+
+            for ver in meta.objects(st, MEMENTO.hasOntologyStateVersion):
+                for t in meta.triples((ver, None, None)):
+                    g.add(t)
+
+            for ag in meta.objects(st, PROV.wasGeneratedBy):
+                for t in meta.triples((ag, None, None)):
+                    g.add(t)
 
     g.serialize(out_path, format="turtle")
 
@@ -181,14 +267,21 @@ export_full_state(m, ONTO, "s0", OUT_S0)
 def normalize_changes(changes):
     out = []
     for (s, p, o), op in changes:
-        s = URIRef(str(s))
-        p = URIRef(str(p))
+
+        # NON toccare i BNode
+        if isinstance(s, URIRef):
+            s = URIRef(str(s))
+
+        if isinstance(p, URIRef):
+            p = URIRef(str(p))
+
         if isinstance(o, URIRef):
             o = URIRef(str(o))
         elif isinstance(o, Literal):
             o = Literal(str(o), lang=o.language, datatype=o.datatype)
         elif isinstance(o, str):
-            o = Literal(o)
+            pass
+
         out.append(((s, p, o), op))
     return out
 
@@ -200,9 +293,34 @@ TARGET_CLASS = URIRef(
 
 def filter_changes_for_class(changes, target):
     filtered = []
-    for (s, p, o), op in changes:
+    seen = set()
+    frontier = set()
+
+    for item in changes:
+        (s, p, o), op = item
         if s == target:
-            filtered.append(((s, p, o), op))
+            filtered.append(item)
+            seen.add(item)
+            if isinstance(o, BNode):
+                frontier.add(o)
+
+    changed = True
+    while changed:
+        changed = False
+        for item in changes:
+            if item in seen:
+                continue
+
+            (s, p, o), op = item
+
+            if isinstance(s, BNode) and s in frontier:
+                filtered.append(item)
+                seen.add(item)
+                changed = True
+
+                if isinstance(o, BNode) and o not in frontier:
+                    frontier.add(o)
+
     return filtered
 
 changes_s1_one_class = filter_changes_for_class(
@@ -274,5 +392,6 @@ g = m.get_ontology_state(ONTO, "s3")
 
 print("\n=== DIFF s1 → s2 ===")
 added, removed = m.get_ontology_state_diff(ONTO, "s1", "s2")
+
 OUT_DIFF = BASE_OUT / "SCTO_diff_s1_s2.ttl"
 export_diff_as_rdf(m, ONTO, added, removed, OUT_DIFF)
