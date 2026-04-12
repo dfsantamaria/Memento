@@ -12,7 +12,6 @@ from datetime import datetime
 from uuid import uuid4
 import re
 
-
 # ==========================
 # OFFICIALS NAMESPACES
 # ==========================
@@ -196,7 +195,7 @@ def get_or_create_axiom(g: Graph, base_uri: str, ontology_name: str, s, p, o):
     g.add((axiom_iri, OWL.annotatedTarget, o))
     return axiom_iri
 
-def copy_bnode_closure(src_g: Graph, dst_g: Graph, node):
+def copy_bnode_closure(src_g, dst_g, node):
     stack = [node]
     seen = set()
 
@@ -207,16 +206,62 @@ def copy_bnode_closure(src_g: Graph, dst_g: Graph, node):
         seen.add(n)
 
         for (s, p, o) in src_g.triples((n, None, None)):
-            if (s, p, o) not in dst_g:
-                dst_g.add((s, p, o))
-            if isinstance(o, BNode) and o not in seen:
+            dst_g.add((s, p, o))
+            if isinstance(o, BNode):
                 stack.append(o)
+
+        for (s, p, o) in src_g.triples((None, None, n)):
+            dst_g.add((s, p, o))
+            if isinstance(s, BNode):
+                stack.append(s)
 
 def entity_exists_in_state(g: Graph, entity, base_uri: str) -> bool:
     for (s, p, o) in g.triples((entity, None, None)):
         if not is_system_triple(s, p, o, base_uri):
             return True
     return False
+
+def get_named_superclasses(g: Graph, cls):
+    out = set()
+    stack = [cls]
+    seen = set()
+
+    while stack:
+        cur = stack.pop()
+        if cur in seen:
+            continue
+        seen.add(cur)
+
+        for sup in g.objects(cur, RDFS.subClassOf):
+            if isinstance(sup, URIRef) and sup not in out:
+                out.add(sup)
+                stack.append(sup)
+
+    return out
+
+def propagate_change_to_anonymous_ancestor_equivs(search_g: Graph, target_g: Graph, cls, ch_iri):
+    ancestors = get_named_superclasses(search_g, cls)
+
+    cls_changes = list(target_g.objects(cls, MEMENTO.hasOntologyStateChange))
+
+    for anc in ancestors:
+        for ax in target_g.subjects(RDF.type, OWL.Axiom):
+            src = next(target_g.objects(ax, OWL.annotatedSource), None)
+            prop = next(target_g.objects(ax, OWL.annotatedProperty), None)
+            tgt = next(target_g.objects(ax, OWL.annotatedTarget), None)
+
+            if src != anc:
+                continue
+            if prop not in (OWL.equivalentClass, RDFS.subClassOf):
+                continue
+            if not isinstance(tgt, BNode):
+                continue
+
+            ax_changes = list(target_g.objects(ax, MEMENTO.hasOntologyStateChange))
+            all_changes = set(ax_changes) | set(cls_changes) | {ch_iri}
+
+            for ch in all_changes:
+                target_g.add((ax, MEMENTO.hasOntologyStateChange, ch))
 
 def rdf_list_items(g: Graph, head):
     items = []
@@ -519,22 +564,6 @@ class MementoSM:
         # FILTER VALID CHANGES
         # --------------------------
 
-        ANNOTATION_PROPS = {
-            RDFS.comment, RDFS.label,
-            OWL.versionInfo, OWL.priorVersion,
-            OWL.backwardCompatibleWith, OWL.incompatibleWith
-        }
-
-        SYSTEM_PREDS = {
-            OWL.annotatedSource,
-            OWL.annotatedProperty,
-            OWL.annotatedTarget,
-            MEMENTO.hasOntologyState,
-            MEMENTO.hasOntologyStateChange,
-            OWL.imports,
-            RDF.type
-        }
-
         entity_to_change = {}
         ent_seq = 0
 
@@ -680,19 +709,28 @@ class MementoSM:
 
             if p not in (
                 RDFS.subClassOf,
-                OWL.equivalentClass
+                OWL.equivalentClass,
+                OWL.disjointWith
             ):
                 continue
 
             if isinstance(o, BNode):
+
                 copy_bnode_closure(g_in, state_graph, o)
 
-                ax_state = add_axiom_bnode(state_graph, s, p, o)
+                axiom_iri = get_or_create_axiom(
+                    state_graph,
+                    self.base,
+                    ontology_name,
+                    s,
+                    p,
+                    o
+                )
 
                 if s in entity_to_change:
-                    state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+                    state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
 
-                axiom_iri = get_or_create_axiom(
+                axiom_iri_ocg = get_or_create_axiom(
                     ocg,
                     self.base,
                     ontology_name,
@@ -702,12 +740,9 @@ class MementoSM:
                 )
 
                 if s in entity_to_change:
-                    ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+                    ocg.add((axiom_iri_ocg, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
 
                 continue
-
-            if isinstance(o, BNode):
-                copy_bnode_closure(g_in, state_graph, o)
 
             axiom_iri = get_or_create_axiom(
                 ocg,
@@ -730,7 +765,7 @@ class MementoSM:
             if s in entity_to_change:
                 state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
             if s in entity_to_change:
-                state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+                ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
 
             if s in entity_to_change:
                 ocg.add((
@@ -879,6 +914,10 @@ class MementoSM:
             if not is_system_triple(s, p, o, self.base)
         ]
 
+        incoming_change_graph = Graph()
+        for (s, p, o), _ in changes:
+            incoming_change_graph.add((s, p, o))
+
         ontology_iri = None
         first_states = self.get_ontology_states(ontology_name)
         if first_states:
@@ -902,6 +941,7 @@ class MementoSM:
         # --------------------------
         # HEADER + IMPORTS
         # --------------------------
+
         declare_imports_in_state_graph(new_state_graph, ontology_iri)
         for pfx, ns in [
             ("rdf", RDF), ("rdfs", RDFS), ("owl", OWL), ("xsd", XSD),
@@ -1026,8 +1066,11 @@ class MementoSM:
         for (s, p, o), ch_type in changes:
 
             if ch_type in (DYNDIFF.addC, DYNDIFF.addI, DYNDIFF.addP):
-                if (s, p, o) in prev_triples:
-                    continue
+                if p == RDFS.subClassOf and isinstance(o, BNode):
+                    pass
+                else:
+                    if (s, p, o) in prev_triples:
+                        continue
 
             if not isinstance(s, URIRef):
                 continue
@@ -1053,7 +1096,10 @@ class MementoSM:
                         RDFS.label,
                         RDFS.comment,
                         RDFS.isDefinedBy,
-                        OWL.versionInfo
+                        OWL.versionInfo,
+                        OWL.annotatedSource,
+                        OWL.annotatedProperty,
+                        OWL.annotatedTarget
                     ):
                         continue
 
@@ -1105,35 +1151,102 @@ class MementoSM:
 
             ch_iri = entity_change[s]
 
+            for ax in new_state_graph.subjects(RDF.type, OWL.Axiom):
+
+                src = next(new_state_graph.objects(ax, OWL.annotatedSource), None)
+                prop = next(new_state_graph.objects(ax, OWL.annotatedProperty), None)
+                tgt = next(new_state_graph.objects(ax, OWL.annotatedTarget), None)
+                ax_changes = list(new_state_graph.objects(ax, MEMENTO.hasOntologyStateChange))
+
+                if prop == RDFS.subClassOf and isinstance(tgt, BNode):
+
+                    if (ax, MEMENTO.hasOntologyStateChange, ch_iri) not in new_state_graph:
+                        new_state_graph.add((ax, MEMENTO.hasOntologyStateChange, ch_iri))
+
             if ch_type in (DYNDIFF.delC, DYNDIFF.delI, DYNDIFF.delP):
 
                 axiom_iri = get_or_create_axiom(ocg, self.base, ontology_name, s, p, o)
                 ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
 
-                ax_state = None
+            ax_state = None
 
-                for ax in new_state_graph.subjects(RDF.type, OWL.Axiom):
-                    if (
-                        (ax, OWL.annotatedSource, s) in new_state_graph and
-                        (ax, OWL.annotatedProperty, p) in new_state_graph and
-                        (ax, OWL.annotatedTarget, o) in new_state_graph
-                    ):
+            for ax in new_state_graph.subjects(OWL.annotatedSource, s):
+
+                prop = next(new_state_graph.objects(ax, OWL.annotatedProperty), None)
+                tgt  = next(new_state_graph.objects(ax, OWL.annotatedTarget), None)
+
+                if prop != p:
+                    continue
+
+                if isinstance(tgt, BNode) and isinstance(o, BNode):
+
+                    tgt_triples = set(new_state_graph.triples((tgt, None, None)))
+                    o_triples   = set(new_state_graph.triples((o, None, None)))
+
+                    if tgt_triples == o_triples:
                         ax_state = ax
                         break
 
-                if ax_state is None:
-                    ax_state = add_axiom_bnode(new_state_graph, s, p, o)
+                if tgt == o:
+                    ax_state = ax
+                    break
+
+
+            if ax_state is not None:
 
                 new_state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, ch_iri))
 
+                new_state_graph.add((s, MEMENTO.hasOntologyStateChange, ch_iri))
+
             else:
-                axiom_iri = get_or_create_axiom(ocg, self.base, ontology_name, s, p, o)
+                axiom_iri = get_or_create_axiom(
+                    ocg,
+                    self.base,
+                    ontology_name,
+                    s,
+                    p,
+                    o
+                )
                 ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, ch_iri))
 
                 if isinstance(o, BNode):
-                    copy_bnode_closure(prev_ctx if prev_ctx else new_state_graph, new_state_graph, o)
 
-                    ax_state = add_axiom_bnode(new_state_graph, s, p, o)
+                    if ch_type in (DYNDIFF.delC, DYNDIFF.delI, DYNDIFF.delP):
+                        bnode_source = prev_ctx if prev_ctx is not None else new_state_graph
+                    else:
+                        bnode_source = incoming_change_graph
+
+                    copy_bnode_closure(bnode_source, new_state_graph, o)
+
+                    if (o, RDF.type, OWL.Restriction) in bnode_source:
+                        new_state_graph.add((o, RDF.type, OWL.Restriction))
+
+                    ax_state = None
+
+                    for ax in new_state_graph.subjects(RDF.type, OWL.Axiom):
+
+                        src = next(new_state_graph.objects(ax, OWL.annotatedSource), None)
+                        prop = next(new_state_graph.objects(ax, OWL.annotatedProperty), None)
+                        tgt = next(new_state_graph.objects(ax, OWL.annotatedTarget), None)
+
+                        if src == s and prop == p:
+
+                            if isinstance(tgt, BNode) and isinstance(o, BNode):
+
+                                tgt_triples = set(new_state_graph.triples((tgt, None, None)))
+                                o_triples   = set(new_state_graph.triples((o, None, None)))
+
+                                if tgt_triples == o_triples:
+                                    ax_state = ax
+                                    break
+
+                            if tgt == o:
+                                ax_state = ax
+                                break
+
+                    if ax_state is None:
+                        ax_state = add_axiom_bnode(new_state_graph, s, p, o)
+
                     new_state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, ch_iri))
 
                 else:
@@ -1146,6 +1259,32 @@ class MementoSM:
                         o
                     )
                     new_state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, ch_iri))
+
+        for s in entity_change:
+
+            ch_iri = entity_change[s]
+
+            if (ch_iri, RDF.type, MEMENTO.DelChangeAction) in new_state_graph:
+                search_graph = prev_ctx if prev_ctx is not None else new_state_graph
+            else:
+                search_graph = new_state_graph
+
+            propagate_change_to_anonymous_ancestor_equivs(
+                search_graph,
+                new_state_graph,
+                s,
+                ch_iri
+            )
+
+            propagate_change_to_anonymous_ancestor_equivs(
+                search_graph,
+                ocg,
+                s,
+                ch_iri
+            )
+
+        self.store.persist()
+        return new_state_iri
 
     # ================================================================
     # GET_ONTOLOGY_STATE_DIFF 
@@ -1180,6 +1319,9 @@ class MementoSM:
 
         if str(p).startswith(str(MEMENTO)) or str(p).startswith(str(PROV)):
             return False
+
+        if isinstance(o, BNode) and p == RDFS.subClassOf:
+            return True
 
         if p == RDF.type and o in (
             MEMENTO.OntologyState,
@@ -1216,23 +1358,100 @@ class MementoSM:
         g2 = self.get_ontology_state(ontology_name, state2)
         ocg = self.store.get_context(self._ocg_iri(ontology_name))
 
-        s1_iri = self._state_iri(ontology_name, state1)
         s2_iri = self._state_iri(ontology_name, state2)
 
-        pure1 = set(
+        pure1 = {
             (s, p, o)
             for (s, p, o) in g1
             if self.is_content_triple(s, p, o)
-        )
+        }
 
-        pure2 = set(
+        pure2 = {
             (s, p, o)
             for (s, p, o) in g2
             if self.is_content_triple(s, p, o)
-        )
+        }
 
-        added = pure2 - pure1
-        removed = pure1 - pure2
+        raw_added = pure2 - pure1
+        raw_removed = pure1 - pure2
+
+        def bnode_closure(graph, node):
+            triples = set()
+            stack = [node]
+            seen = set()
+
+            while stack:
+                n = stack.pop()
+                if n in seen:
+                    continue
+                seen.add(n)
+
+                for t in graph.triples((n, None, None)):
+                    triples.add(t)
+                    if isinstance(t[2], BNode):
+                        stack.append(t[2])
+
+                for t in graph.triples((None, None, n)):
+                    triples.add(t)
+                    if isinstance(t[0], BNode):
+                        stack.append(t[0])
+
+            return triples
+
+        def expand_with_bnodes(graph, triples_set):
+            expanded = set(triples_set)
+
+            for (s, p, o) in list(triples_set):
+                if isinstance(o, BNode):
+                    expanded |= bnode_closure(graph, o)
+
+            return expanded
+
+        added = expand_with_bnodes(g2, raw_added)
+        removed = expand_with_bnodes(g1, raw_removed)
+
+        def find_change_iri(triple):
+            s, p, o = triple
+
+            if not isinstance(s, URIRef):
+                return None
+
+            for ax in ocg.subjects(OWL.annotatedSource, s):
+                if (ax, OWL.annotatedProperty, p) not in ocg:
+                    continue
+
+                tgt = next(ocg.objects(ax, OWL.annotatedTarget), None)
+
+                if isinstance(o, BNode) and isinstance(tgt, BNode):
+                    match = False
+                    try:
+                        match = (
+                            bnode_closure(g1, o) == bnode_closure(g1, tgt)
+                            or bnode_closure(g2, o) == bnode_closure(g2, tgt)
+                        )
+                    except Exception:
+                        match = False
+                else:
+                    match = (tgt == o)
+
+                if not match:
+                    continue
+
+                for ch in ocg.objects(ax, MEMENTO.hasOntologyStateChange):
+                    if (ch, MEMENTO.hasOntologyState, s2_iri) in ocg:
+                        return ch
+
+            # fallback: entity-level annotation in state2
+            for ch in g2.objects(s, MEMENTO.hasOntologyStateChange):
+                if (ch, MEMENTO.hasOntologyState, s2_iri) in ocg:
+                    return ch
+
+            return None
+
+        added_list = [((s, p, o), find_change_iri((s, p, o))) for (s, p, o) in added]
+        removed_list = [((s, p, o), find_change_iri((s, p, o))) for (s, p, o) in removed]
+
+        return added_list, removed_list
 
         # -------------------------------------------------
         # FALLBACK: if semantic graphs are identical 
