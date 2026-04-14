@@ -381,7 +381,7 @@ class MementoSM:
         GITHUB_BASE = "https://raw.githubusercontent.com/dfsantamaria/Memento/main/ontologies"
 
         self._memento_url = f"{GITHUB_BASE}/memento-o.owl"
-        self._dyndiff_url = f"{GITHUB_BASE}/DynDiffOnto.owl"
+        self._dyndiff_url = "http://www.list.lu/change-ontology/"
         self._prov_url     = f"{GITHUB_BASE}/prov-o.ttl"
 
         meta = self.store.get_context(self.meta_graph_iri)
@@ -727,9 +727,6 @@ class MementoSM:
                     o
                 )
 
-                if s in entity_to_change:
-                    state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
-
                 axiom_iri_ocg = get_or_create_axiom(
                     ocg,
                     self.base,
@@ -739,8 +736,12 @@ class MementoSM:
                     o
                 )
 
-                if s in entity_to_change:
-                    ocg.add((axiom_iri_ocg, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+                if p != OWL.equivalentClass:
+                    if s in entity_to_change:
+                        state_graph.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+
+                    if s in entity_to_change:
+                        ocg.add((axiom_iri_ocg, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
 
                 continue
 
@@ -762,8 +763,10 @@ class MementoSM:
                 o
             )
 
-            if s in entity_to_change:
-                state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+            if p != OWL.equivalentClass:
+                if s in entity_to_change:
+                    state_graph.add((ax_state, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
+                    
             if s in entity_to_change:
                 ocg.add((axiom_iri, MEMENTO.hasOntologyStateChange, entity_to_change[s]))
 
@@ -961,6 +964,15 @@ class MementoSM:
             for t in prev_ctx:
                 new_state_graph.add(t)
 
+        for ax in list(new_state_graph.subjects(RDF.type, OWL.Axiom)):
+
+            ax_changes = list(new_state_graph.objects(ax, MEMENTO.hasOntologyStateChange))
+
+            if len(ax_changes) > len(set(ax_changes)):
+                new_state_graph.remove((ax, MEMENTO.hasOntologyStateChange, None))
+                for ch in set(ax_changes):
+                    new_state_graph.add((ax, MEMENTO.hasOntologyStateChange, ch))
+
         # --------------------------
         # METADATA
         # --------------------------
@@ -1145,7 +1157,9 @@ class MementoSM:
                     new_state_graph.remove((s, MEMENTO.hasOntologyStateChange, None))
 
                     for ax_old in list(new_state_graph.subjects(OWL.annotatedSource, s)):
-                        new_state_graph.remove((ax_old, MEMENTO.hasOntologyStateChange, None))
+                        for ch in list(new_state_graph.objects(ax_old, MEMENTO.hasOntologyStateChange)):
+                            if (ch, MEMENTO.hasOntologyState, new_state_iri) in new_state_graph:
+                                new_state_graph.remove((ax_old, MEMENTO.hasOntologyStateChange, ch))
 
                 new_state_graph.add((s, MEMENTO.hasOntologyStateChange, ch_iri))
 
@@ -1441,7 +1455,6 @@ class MementoSM:
                     if (ch, MEMENTO.hasOntologyState, s2_iri) in ocg:
                         return ch
 
-            # fallback: entity-level annotation in state2
             for ch in g2.objects(s, MEMENTO.hasOntologyStateChange):
                 if (ch, MEMENTO.hasOntologyState, s2_iri) in ocg:
                     return ch
@@ -1450,86 +1463,6 @@ class MementoSM:
 
         added_list = [((s, p, o), find_change_iri((s, p, o))) for (s, p, o) in added]
         removed_list = [((s, p, o), find_change_iri((s, p, o))) for (s, p, o) in removed]
-
-        return added_list, removed_list
-
-        # -------------------------------------------------
-        # FALLBACK: if semantic graphs are identical 
-        # use OCG change annotations to produce a diff anyway
-        # -------------------------------------------------
-
-        if not added and not removed:
-
-            added_list = []
-            removed_list = []
-
-            for ch in ocg.subjects(MEMENTO.hasOntologyState, s2_iri):
-
-                if (ch, RDF.type, MEMENTO.AddChangeAction) in ocg:
-                    action = MEMENTO.AddChangeAction
-                elif (ch, RDF.type, MEMENTO.DelChangeAction) in ocg:
-                    action = MEMENTO.DelChangeAction
-                else:
-                    continue
-
-                found = False
-                for ax in ocg.subjects(MEMENTO.hasOntologyStateChange, ch):
-
-                    s = next(ocg.objects(ax, OWL.annotatedSource), None)
-                    p = next(ocg.objects(ax, OWL.annotatedProperty), None)
-                    o = next(ocg.objects(ax, OWL.annotatedTarget), None)
-
-                    if s and p and o:
-                        found = True
-                        if action == MEMENTO.AddChangeAction:
-                            added_list.append(((s, p, o), action))
-                        else:
-                            removed_list.append(((s, p, o), action))
-
-                if not found:
-                    for ent in g2.subjects(MEMENTO.hasOntologyStateChange, ch):
-
-                        triple = (ent, RDF.type, OWL.Class)
-
-                        if action == MEMENTO.AddChangeAction:
-                            added_list.append((triple, action))
-                        else:
-                            removed_list.append((triple, action))
-
-            return added_list, removed_list
-
-        def find_type(triple, state_iri, state_graph):
-            s, p, o = triple
-
-            for ax in ocg.subjects(OWL.annotatedSource, s):
-                if (ax, OWL.annotatedProperty, p) not in ocg:
-                    continue
-                if (ax, OWL.annotatedTarget, o) not in ocg:
-                    continue
-
-                for ch in ocg.objects(ax, MEMENTO.hasOntologyStateChange):
-                    if (ch, MEMENTO.hasOntologyState, state_iri) not in ocg:
-                        continue
-
-                    if (ch, RDF.type, MEMENTO.AddChangeAction) in ocg:
-                        return MEMENTO.AddChangeAction
-                    if (ch, RDF.type, MEMENTO.DelChangeAction) in ocg:
-                        return MEMENTO.DelChangeAction
-
-            if isinstance(s, URIRef):
-                for ch in state_graph.objects(s, MEMENTO.hasOntologyStateChange):
-                    if (ch, MEMENTO.hasOntologyState, state_iri) not in ocg:
-                        continue
-
-                    if (ch, RDF.type, MEMENTO.AddChangeAction) in ocg:
-                        return MEMENTO.AddChangeAction
-                    if (ch, RDF.type, MEMENTO.DelChangeAction) in ocg:
-                        return MEMENTO.DelChangeAction
-
-            return None
-
-        added_list   = [(t, find_type(t, s2_iri, g2)) for t in added]
-        removed_list = [(t, find_type(t, s1_iri, g1)) for t in removed]
 
         return added_list, removed_list
         
