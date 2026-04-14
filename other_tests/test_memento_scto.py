@@ -328,6 +328,7 @@ changes_s1_one_class = filter_changes_for_class(
     TARGET_CLASS
 )
 
+print("\n===s1 CREATION===")
 s1 = m.create_ontology_state(
     ontology_name=ONTO,
     changes=changes_s1_one_class,
@@ -356,6 +357,7 @@ def invert_change_type(ch_type):
 
 changes_s2 = [(t, invert_change_type(tp)) for (t, tp) in changes_s1_one_class]
 
+print("\n===s2 CREATION===")
 s2 = m.create_ontology_state(
     ontology_name=ONTO,
     changes=changes_s2,
@@ -374,6 +376,7 @@ g = m.get_ontology_state(ONTO, "s2")
 # 4) S3 — REVERT
 # =======================
 
+print("\n===s3 CREATION===")
 s3 = m.revert_ontology(
     ONTO,
     target_state="s1",
