@@ -117,9 +117,15 @@ def declare_imports_in_state_graph(state_graph: Graph, ontology_iri: URIRef):
     state_graph.add((ontology_iri, OWL.imports, IMPORT_MEMENTO))
     state_graph.add((ontology_iri, OWL.imports, IMPORT_DYNDIFF))
     state_graph.add((ontology_iri, OWL.imports, IMPORT_PROVO))
-    state_graph.add((MEMENTO.hasOntologyState, RDF.type, OWL.AnnotationProperty))
+
     state_graph.add((MEMENTO.hasOntologyStateChange, RDF.type, OWL.AnnotationProperty))
+
+    state_graph.add((MEMENTO.hasOntologyState, RDF.type, OWL.ObjectProperty))
     state_graph.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
+    state_graph.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
+    state_graph.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+
+    state_graph.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
 
 def declare_version_dataprops(g: Graph):
     for dp in [
@@ -375,8 +381,11 @@ class MementoSM:
         meta = self.store.get_context(self.meta_graph_iri)
 
         meta.add((MEMENTO.hasOntologyStateChange, RDF.type, OWL.AnnotationProperty))
-        meta.add((MEMENTO.hasOntologyState, RDF.type, OWL.AnnotationProperty))
-
+        meta.add((MEMENTO.hasOntologyState, RDF.type, OWL.ObjectProperty))
+        meta.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
+        meta.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
+        meta.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+        meta.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
 
         GITHUB_BASE = "https://raw.githubusercontent.com/dfsantamaria/Memento/main/ontologies"
 
@@ -396,7 +405,12 @@ class MementoSM:
         except Exception as e:
             print("Error loading ontologies from GitHub:", e)
 
+        meta.add((MEMENTO.hasOntologyStateChange, RDF.type, OWL.AnnotationProperty))
+        meta.add((MEMENTO.hasOntologyState, RDF.type, OWL.ObjectProperty))
         meta.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
+        meta.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
+        meta.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+        meta.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
 
     # ================================================================
     # UTILITY
