@@ -1,6 +1,6 @@
 from rdflib import URIRef, Literal, RDF, RDFS, OWL, Graph, Namespace, BNode 
 from rdflib import ConjunctiveGraph
-from memento import MementoSM, DYNDIFF, copy_bnode_closure
+from memento import MementoSM, DYNDIFF, declare_version_dataprops
 from changes_s1_converted import changes_s1
 from pathlib import Path
 
@@ -67,6 +67,17 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
     g.bind("owl", OWL)
     g.bind("rdfs", RDFS)
     g.bind("prov", PROV)
+
+    g.add((MEMENTO.hasOntologyStateChange, RDF.type, OWL.AnnotationProperty))
+
+    g.add((MEMENTO.hasOntologyState, RDF.type, OWL.ObjectProperty))
+    g.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
+    g.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
+    g.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+
+    g.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
+
+    declare_version_dataprops(g)
 
     ocg = m.store.get_context(m._ocg_iri(ontology_name))
     meta = m.store.get_context(m.meta_graph_iri)
