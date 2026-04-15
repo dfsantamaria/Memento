@@ -5,10 +5,32 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+memento:hasOntologyState a owl:ObjectProperty .
+
+memento:hasOntologyStateChange a owl:AnnotationProperty .
+
+memento:hasOntologyStateVersion a owl:ObjectProperty .
+
+memento:hasOntologyStateVersionLabel a owl:DatatypeProperty .
+
+memento:hasOntologyStateVersionMajorRevision a owl:DatatypeProperty .
+
+memento:hasOntologyStateVersionMetadata a owl:DatatypeProperty .
+
+memento:hasOntologyStateVersionMinorRevision a owl:DatatypeProperty .
+
+memento:hasOntologyStateVersionPatchRevision a owl:DatatypeProperty .
+
+memento:hasPreviousState a owl:ObjectProperty .
+
+prov:startedAtTime a owl:DatatypeProperty .
+
+prov:wasGeneratedBy a owl:ObjectProperty .
+
 <http://example.org/memento/state/SCTO/s2> a memento:OntologyState ;
     memento:hasOntologyStateVersion <http://example.org/memento/version/SCTO/s2-version-2.0.0-remove-one> ;
     memento:hasPreviousState <http://example.org/memento/state/SCTO/s1> ;
-    prov:startedAtTime "2026-04-14T17:28:21+00:00"^^xsd:dateTime ;
+    prov:startedAtTime "2026-04-14T20:18:05+00:00"^^xsd:dateTime ;
     prov:wasGeneratedBy <http://example.org/memento/agent/Shaker_El-Sappagh> .
 
 <http://example.org/memento/version/SCTO/s2-version-2.0.0-remove-one> a memento:OntologyStateVersion ;
@@ -25,26 +47,26 @@
 
 <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> a owl:Class ;
     rdfs:label "time frame"@en ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T17:28:21Z-s2-0001> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> ;
     rdfs:subClassOf <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
 
-<http://example.org/memento/change/SCTO/SCTO-2026-04-14T17:28:21Z-s2-0001> a memento:DelChangeAction,
+<http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> a memento:DelChangeAction,
         memento:OntologyStateChange,
         <http://www.list.lu/change-ontology/BasicChange>,
         <http://www.list.lu/change-ontology/delC>,
         prov:Entity ;
     memento:hasOntologyState <http://example.org/memento/state/SCTO/s2> ;
-    prov:startedAtTime "2026-04-14T17:28:21+00:00"^^xsd:dateTime ;
+    prov:startedAtTime "2026-04-14T20:18:05+00:00"^^xsd:dateTime ;
     prov:wasGeneratedBy <http://example.org/memento/agent/Shaker_El-Sappagh> .
 
 [] a owl:Axiom ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T17:28:21Z-s2-0001> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> ;
     owl:annotatedProperty rdfs:subClassOf ;
     owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
     owl:annotatedTarget <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
 
 [] a owl:Axiom ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T17:28:21Z-s2-0001> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> ;
     owl:annotatedProperty rdf:type ;
     owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
     owl:annotatedTarget owl:Class .
