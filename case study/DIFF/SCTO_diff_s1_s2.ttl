@@ -30,7 +30,7 @@ prov:wasGeneratedBy a owl:ObjectProperty .
 <http://example.org/memento/state/SCTO/s2> a memento:OntologyState ;
     memento:hasOntologyStateVersion <http://example.org/memento/version/SCTO/s2-version-2.0.0-remove-one> ;
     memento:hasPreviousState <http://example.org/memento/state/SCTO/s1> ;
-    prov:startedAtTime "2026-04-14T20:18:05+00:00"^^xsd:dateTime ;
+    prov:startedAtTime "2026-04-16T15:13:31+00:00"^^xsd:dateTime ;
     prov:wasGeneratedBy <http://example.org/memento/agent/Shaker_El-Sappagh> .
 
 <http://example.org/memento/version/SCTO/s2-version-2.0.0-remove-one> a memento:OntologyStateVersion ;
@@ -47,27 +47,27 @@ prov:wasGeneratedBy a owl:ObjectProperty .
 
 <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> a owl:Class ;
     rdfs:label "time frame"@en ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-16T15:13:31Z-s2-0001> ;
     rdfs:subClassOf <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
 
-<http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> a memento:DelChangeAction,
+<http://example.org/memento/change/SCTO/SCTO-2026-04-16T15:13:31Z-s2-0001> a memento:DelChangeAction,
         memento:OntologyStateChange,
         <http://www.list.lu/change-ontology/BasicChange>,
         <http://www.list.lu/change-ontology/delC>,
         prov:Entity ;
     memento:hasOntologyState <http://example.org/memento/state/SCTO/s2> ;
-    prov:startedAtTime "2026-04-14T20:18:05+00:00"^^xsd:dateTime ;
+    prov:startedAtTime "2026-04-16T15:13:31+00:00"^^xsd:dateTime ;
     prov:wasGeneratedBy <http://example.org/memento/agent/Shaker_El-Sappagh> .
 
 [] a owl:Axiom ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> ;
-    owl:annotatedProperty rdfs:subClassOf ;
-    owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
-    owl:annotatedTarget <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
-
-[] a owl:Axiom ;
-    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-14T20:18:05Z-s2-0001> ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-16T15:13:31Z-s2-0001> ;
     owl:annotatedProperty rdf:type ;
     owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
     owl:annotatedTarget owl:Class .
+
+[] a owl:Axiom ;
+    memento:hasOntologyStateChange <http://example.org/memento/change/SCTO/SCTO-2026-04-16T15:13:31Z-s2-0001> ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource <https://bioportal.bioontology.org/ontologies/SCTO#SCTO_7389001> ;
+    owl:annotatedTarget <http://purl.obolibrary.org/obo/ogms.owl#SCTO_362981000> .
 
