@@ -694,9 +694,6 @@ class MementoSM:
             # REIFY INSTANCE ASSERTIONS
             # ------------------------------------
 
-            if p in (RDFS.label, RDFS.comment, OWL.versionInfo):
-                continue
-
             if p == RDF.type and isinstance(s, URIRef) and isinstance(o, URIRef) and o != OWL.NamedIndividual:
 
                 axiom_iri = get_or_create_axiom(ocg, self.base, ontology_name, s, RDF.type, o)
@@ -1178,6 +1175,20 @@ class MementoSM:
                 new_state_graph.add((s, MEMENTO.hasOntologyStateChange, ch_iri))
 
             ch_iri = entity_change[s]
+
+            for ap in (RDFS.label, RDFS.comment, OWL.versionInfo):
+                for ao in new_state_graph.objects(s, ap):
+
+                    ax_ann = get_or_create_axiom(
+                        new_state_graph,
+                        self.base,
+                        ontology_name,
+                        s,
+                        ap,
+                        ao
+                    )
+
+                    new_state_graph.add((ax_ann, MEMENTO.hasOntologyStateChange, ch_iri))
 
             for ax in new_state_graph.subjects(RDF.type, OWL.Axiom):
 
