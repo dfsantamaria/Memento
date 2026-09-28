@@ -74,6 +74,7 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
     g.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
     g.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
     g.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+    g.add((PROV.wasAssociatedWith, RDF.type, OWL.ObjectProperty))
 
     g.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
 
@@ -213,9 +214,13 @@ def export_diff_as_rdf(m, ontology_name, added, removed, out_path, copy_labels=T
                 for t in meta.triples((ver, None, None)):
                     g.add(t)
 
-            for ag in meta.objects(st, PROV.wasGeneratedBy):
-                for t in meta.triples((ag, None, None)):
+            for act in meta.objects(st, PROV.wasGeneratedBy):
+                for t in meta.triples((act, None, None)):
                     g.add(t)
+
+                for ag in meta.objects(act, PROV.wasAssociatedWith):
+                    for t in meta.triples((ag, None, None)):
+                        g.add(t)
 
     g.serialize(out_path, format="turtle")
 

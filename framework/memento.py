@@ -70,6 +70,13 @@ def make_state_iri(base_uri: str, ontology_name: str, state_name: str) -> URIRef
     return URIRef(f"{base_uri}/state/{ontology_name}/{state_name}")
 
 # ==========================
+# CREATE IRI STATE ACTIVITY
+# ==========================
+
+def make_activity_iri(base_uri: str, ontology_name: str, state_name: str) -> URIRef:
+    return URIRef(f"{base_uri}/activity/{ontology_name}/{state_name}-activity")
+
+# ==========================
 # CREATE IRI CHANGE GRAPH
 # ==========================
 
@@ -124,8 +131,34 @@ def declare_imports_in_state_graph(state_graph: Graph, ontology_iri: URIRef):
     state_graph.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
     state_graph.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
     state_graph.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+    state_graph.add((PROV.wasAssociatedWith, RDF.type, OWL.ObjectProperty))
 
     state_graph.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
+
+# ==========================
+# STATE PROVENANCE (PROV-O)
+# ==========================
+
+def add_state_provenance(g: Graph, state_iri, activity_iri, agent_iri, ts_literal):
+    """
+    Links a state to the prov:Activity that generated it, following PROV-O:
+
+        state    prov:wasGeneratedBy   activity
+        activity prov:wasAssociatedWith agent
+        activity prov:startedAtTime    ts
+
+    (prov:wasGeneratedBy has range prov:Activity and prov:startedAtTime
+    has domain prov:Activity, so neither can point to/from the agent or
+    the state directly.)
+    """
+    g.add((state_iri, PROV.wasGeneratedBy, activity_iri))
+
+    g.add((activity_iri, RDF.type, PROV.Activity))
+    g.add((activity_iri, PROV.startedAtTime, ts_literal))
+    g.add((activity_iri, PROV.wasAssociatedWith, agent_iri))
+
+    g.add((agent_iri, RDF.type, PROV.Agent))
+    g.add((agent_iri, RDF.type, PROV.Person))
 
 def declare_version_dataprops(g: Graph):
     for dp in [
@@ -385,6 +418,7 @@ class MementoSM:
         meta.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
         meta.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
         meta.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+        meta.add((PROV.wasAssociatedWith, RDF.type, OWL.ObjectProperty))
         meta.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
 
         GITHUB_BASE = "https://raw.githubusercontent.com/dfsantamaria/Memento/main/ontologies"
@@ -410,6 +444,7 @@ class MementoSM:
         meta.add((MEMENTO.hasPreviousState, RDF.type, OWL.ObjectProperty))
         meta.add((MEMENTO.hasOntologyStateVersion, RDF.type, OWL.ObjectProperty))
         meta.add((PROV.wasGeneratedBy, RDF.type, OWL.ObjectProperty))
+        meta.add((PROV.wasAssociatedWith, RDF.type, OWL.ObjectProperty))
         meta.add((PROV.startedAtTime, RDF.type, OWL.DatatypeProperty))
 
     # ================================================================
@@ -430,7 +465,8 @@ class MementoSM:
 
     def get_ontology_states(self, ontology_name):
         """
-        Sort states by the PROV:startedAtTime timestamp in the meta graph.
+        Sort states by the PROV:startedAtTime timestamp of the activity
+        that generated each state (state prov:wasGeneratedBy activity).
         """
         prefix = f"{self.base}/graphs/{ontology_name}/state/"
         found = []
@@ -441,7 +477,11 @@ class MementoSM:
             if uri.startswith(prefix):
                 sname = uri.split("/")[-1]
                 state_iri = self._state_iri(ontology_name, sname)
-                tvals = list(meta.objects(state_iri, PROV.startedAtTime))
+                tvals = [
+                    t
+                    for act in meta.objects(state_iri, PROV.wasGeneratedBy)
+                    for t in meta.objects(act, PROV.startedAtTime)
+                ]
                 ts = str(tvals[0]) if tvals else ""
                 found.append((sname, ts))
 
@@ -789,11 +829,11 @@ class MementoSM:
                 ))
 
         version_iri = URIRef(f"{self.base}/version/{ontology_name}/{state_name}-version-{version}")
+        activity_iri = make_activity_iri(self.base, ontology_name, state_name)
         now = ts_lit
 
         meta.add((state_iri, RDF.type, MEMENTO.OntologyState))
-        meta.add((state_iri, PROV.startedAtTime, now))
-        meta.add((state_iri, PROV.wasGeneratedBy, agent_iri))
+        add_state_provenance(meta, state_iri, activity_iri, agent_iri, now)
         meta.add((state_iri, MEMENTO.hasOntologyStateVersion, version_iri))
 
         #VERSION PARSING
@@ -830,14 +870,10 @@ class MementoSM:
                 Literal(metadata, datatype=XSD.string)
             ))
 
-        meta.add((agent_iri, RDF.type, PROV.Agent))
-        meta.add((agent_iri, RDF.type, PROV.Person))
-
         #MIRROR INTO STATE GRAPH
         state_graph.add((state_iri, RDF.type, MEMENTO.OntologyState))
-        state_graph.add((state_iri, PROV.startedAtTime, now))
         state_graph.add((state_iri, MEMENTO.hasOntologyStateVersion, version_iri))
-        state_graph.add((state_iri, PROV.wasGeneratedBy, agent_iri))
+        add_state_provenance(state_graph, state_iri, activity_iri, agent_iri, now)
 
         state_graph.add((version_iri, RDF.type, MEMENTO.OntologyStateVersion))
         state_graph.add((
@@ -910,6 +946,7 @@ class MementoSM:
 
         agent_iri = URIRef(f"{self.base}/agent/{author.replace(' ', '_')}")
         new_state_iri = self._state_iri(ontology_name, state_name)
+        activity_iri = make_activity_iri(self.base, ontology_name, state_name)
         new_state_graph = self.store.get_context(self._state_graph_iri(ontology_name, state_name))
 
         ts = iso_timestamp()
@@ -1007,8 +1044,7 @@ class MementoSM:
                     Literal(metadata, datatype=XSD.string)))
 
         meta.add((new_state_iri, RDF.type, MEMENTO.OntologyState))
-        meta.add((new_state_iri, PROV.startedAtTime, ts_literal))
-        meta.add((new_state_iri, PROV.wasGeneratedBy, agent_iri))
+        add_state_provenance(meta, new_state_iri, activity_iri, agent_iri, ts_literal)
         meta.add((new_state_iri, MEMENTO.hasOntologyStateVersion, version_iri))
 
         if prev_state_name is not None:
@@ -1017,13 +1053,9 @@ class MementoSM:
 
         meta.add((version_iri, RDF.type, MEMENTO.OntologyStateVersion))
 
-        meta.add((agent_iri, RDF.type, PROV.Agent))
-        meta.add((agent_iri, RDF.type, PROV.Person))
-
         new_state_graph.add((new_state_iri, RDF.type, MEMENTO.OntologyState))
-        new_state_graph.add((new_state_iri, PROV.startedAtTime, ts_literal))
         new_state_graph.add((new_state_iri, MEMENTO.hasOntologyStateVersion, version_iri))
-        new_state_graph.add((new_state_iri, PROV.wasGeneratedBy, agent_iri))
+        add_state_provenance(new_state_graph, new_state_iri, activity_iri, agent_iri, ts_literal)
 
         if prev_state_name is not None:
             prev_state_iri = self._state_iri(ontology_name, prev_state_name)
@@ -1078,8 +1110,7 @@ class MementoSM:
                 ocg.add((iri, RDF.type, DYNDIFF.BasicChange))
                 ocg.add((iri, RDF.type, PROV.Entity))
                 ocg.add((iri, RDF.type, change_action_class(ch_type)))
-                ocg.add((iri, PROV.startedAtTime, ts_literal))
-                ocg.add((iri, PROV.wasGeneratedBy, agent_iri))
+                ocg.add((iri, PROV.wasGeneratedBy, activity_iri))
                 ocg.add((iri, MEMENTO.hasOntologyState, new_state_iri))
                 ocg.add((iri, RDF.type, MEMENTO.OntologyStateChange))
 
@@ -1366,6 +1397,7 @@ class MementoSM:
             MEMENTO.OntologyState,
             MEMENTO.OntologyStateVersion,
             MEMENTO.OntologyStateChange,
+            PROV.Activity,
             PROV.Agent,
             PROV.Person
         ):
@@ -1373,6 +1405,7 @@ class MementoSM:
 
         if isinstance(s, URIRef) and (
             "/state/" in str(s)
+            or "/activity/" in str(s)
             or "/version/" in str(s)
             or "/change/" in str(s)
             or "/axiom/" in str(s)
