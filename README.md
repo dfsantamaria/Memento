@@ -1,0 +1,5 @@
+MEMENTO — Meta-Annotated Change Graph Based Management of Evolving Ontologies
+
+MEMENTO (Meta-Annotated Change Graph Based Management of Evolving Ontologies) is a framework for managing evolving ontologies by tracking changes at the RDF statement level. It integrates DynDiffOnto, PROV-O, and RDF/OWL annotations to represent ontology states, versions, changes, and provenance in a unified knowledge graph. MEMENTO supports ontology version tracking, state retrieval, change/delta computation, and rollback operations, enabling transparent and queryable management of ontology evolution.
+
+MEMENTO first appeared to the proceedings of 8th International Knowledge Graph and Semantic Web Conference (KGSWC 2026).
